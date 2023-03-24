@@ -1,6 +1,3 @@
-# CafeMate
-소상공인 프로젝트
-
 ## 환경설정
 
 spring boot 3.0.5
@@ -8,6 +5,8 @@ spring boot 3.0.5
 gradle
 
 jdk 17
+
+---
 
 ### Dependencies
 
