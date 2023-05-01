@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head th:fragment="html-head">
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,8 +13,36 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <title>Welcome! Cafe Mate</title>
+    <style>
+        .btn {
+            display: inline-block;
+            font-weight: 400;
+            color: #212529;
+            text-align: center;
+            vertical-align: middle;
+            user-select: none;
+            background-color: transparent;
+            border: 1px solid #212529;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: 0.25rem;
+            transition: color 0.15s ease-in-out,
+            background-color 0.15s ease-in-out,
+            border-color 0.15s ease-in-out,
+            box-shadow 0.15s ease-in-out;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            color: #fff;
+            background-color: #212529;
+            border-color: #212529;
+        }
+    </style>
 </head>
 <body>
+<div th:fragment="header">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">Cafe Mate</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,11 +75,10 @@
                 </div>
             </li>
         </ul>
-        <form class="d-flex" role="login">
-            <button type="submit" class="btn btn-outline-dark">로그인</button>
-        </form>
+        <a href="/auth/signin" class="btn btn-outline-dark">로그인</a>
     </div>
 </nav>
-<img src="./templates/background_img3.jpg" alt="backgroundImage" class="img-fluid">
+</div>
+
 </body>
 </html>
