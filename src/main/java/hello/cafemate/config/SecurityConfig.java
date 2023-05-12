@@ -18,23 +18,19 @@ public class SecurityConfig {
     }
 
 
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.csrf().disable();
         httpSecurity.authorizeHttpRequests()
-                .requestMatchers("/user/**")
-                .authenticated()
-                .anyRequest()
-                .permitAll()
+                .requestMatchers("/user/**").hasAnyRole("ADMIN", "MANAGER") // "/user/**" 패턴에 대한 접근 제어
+                .anyRequest().permitAll()
                 .and()
-                .formLogin() //로그인(인증)이 필요한 요청이 들어오면
-                .loginPage("/auth/signin")//로그인페이지 auth/signin으로 이동시키고(GET)
-                .loginProcessingUrl("/auth/signin")//POST->스프링시큐리티가 로그인 프로세스 진행
-                .defaultSuccessUrl("/"); //인증이 정상적으로 완료되면 /로 이동한다.
+                .formLogin()
+                .loginPage("/auth/signin") // 로그인 페이지
+                .loginProcessingUrl("/auth/signin") // 로그인 처리 URL
+                .defaultSuccessUrl("/"); // 로그인 성공 시 이동할 기본 URL
 
         return httpSecurity.build();
-
-
     }
-
-
 }

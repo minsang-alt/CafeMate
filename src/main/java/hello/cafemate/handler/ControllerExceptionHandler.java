@@ -16,5 +16,5 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(CustomValidationException.class) //RuntimeException이 발동하는 모든 것을 이 함수가 낚아챔
     public String validationException(CustomValidationException e){
         return Script.back(e.getErrorMap().toString());
-    }
+}
 }
