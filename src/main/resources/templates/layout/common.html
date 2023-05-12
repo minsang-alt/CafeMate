@@ -39,6 +39,56 @@
             background-color: #212529;
             border-color: #212529;
         }
+
+
+        .form-group.required .control-label:after {
+            content:"*";
+            color:red;
+        }
+
+        /* Toggle switch */
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            display: inline-block;
+        }
+
+        .toggle-switch-checkbox {
+            display: none;
+        }
+
+        .toggle-switch-label {
+            display: block;
+            height: 25px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid #ccc;
+            border-radius: 20px;
+            background-color: #ccc;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .toggle-switch-switch {
+            display: block;
+            width: 20px;
+            height: 20px;
+            margin: 3px;
+            background: white;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 20px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .toggle-switch-checkbox:checked + .toggle-switch-label .toggle-switch-switch {
+            left: 34px;
+        }
+
+        .toggle-switch-checkbox:checked + .toggle-switch-label {
+            background-color: #4B9CE2;
+            border-color: #4B9CE2;
+        }
     </style>
 </head>
 <body>
@@ -61,8 +111,8 @@
                     상품
                 </a>
                 <div class="dropdown-menu" aria-labelledby="productsDropdown">
-                    <a class="dropdown-item" href="#">상품 등록</a>
-                    <a class="dropdown-item" href="#">상품 목록</a>
+                    <a class="dropdown-item" href="/admin/products">상품 등록</a>
+                    <a class="dropdown-item" href="/products">상품 목록</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
