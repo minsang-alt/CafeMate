@@ -1,9 +1,8 @@
 package hello.cafemate.web;
 
 import hello.cafemate.handler.ex.CustomValidationException;
-import hello.cafemate.web.dto.product.ProductDto;
+import hello.cafemate.web.dto.menu.MenuDto;
 import jakarta.validation.Valid;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -14,17 +13,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-public class ProductController {
+public class MenuController {
 
-    @GetMapping("/admin/products")
-    public String showProductRegistrationForm() {
+    @GetMapping("/admin/menus")
+    public String showMenuRegistrationForm() {
 
 
-        return "product/productsRegisterForm";
+        return "menu/menuRegisterForm";
     }
 
-    @PostMapping("/admin/products")
-    public String productRegist(@Valid ProductDto productDto , BindingResult bindingResult){
+    @PostMapping("/admin/menus")
+    public String menuRegist(@Valid MenuDto menuDto, BindingResult bindingResult){
 
         if(bindingResult.hasErrors()){
             Map<String,String> errorMap = new HashMap<>();
@@ -38,7 +37,7 @@ public class ProductController {
             //상품 DB에 등록하고
 
 
-            return "product/productList";
+            return "menu/menuList";
         }
 
 
@@ -46,10 +45,12 @@ public class ProductController {
 
     }
 
-    @GetMapping("/products")
+    @GetMapping("/menus")
     public String productListShow(){
 
-        return "product/productList";
+
+
+        return "menu/menuList";
     }
 
 

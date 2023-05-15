@@ -1,10 +1,10 @@
-package hello.cafemate.web.dto.product;
+package hello.cafemate.web.dto.menu;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class ProductDto {
+public class MenuDto {
 
 @NotBlank
 private String product_name;
