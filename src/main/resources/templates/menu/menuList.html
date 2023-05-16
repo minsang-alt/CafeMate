@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="layout/common :: html-head">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Product Information List</title>
+    <!-- Bootstrap CSS -->
+    <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+            crossorigin="anonymous"
+    />
+</head>
+<body>
+<div th:replace="layout/common :: header"></div>
+<div class="container">
+    <h1>Product Information List</h1>
+    <hr />
+    <table class="table">
+        <thead>
+        <tr>
+            <th>상품이름</th>
+            <th>카테고리</th>
+            <th>가격</th>
+            <th>판매여부</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody id="menu-list">
+        <!--여기서 부터 상품 목록 출력-->
+
+        <!--여기에서 상품 목록 출력 끝-->
+        </tbody>
+    </table>
+</div>
+
+<!-- Bootstrap JS -->
+<!--<script
+        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"
+></script>
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"
+></script>
+<script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07"
+></script>-->
+<script th:inline="javascript" src="/js/menuList.js"></script>
+</body>
+</html>
