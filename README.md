@@ -37,3 +37,8 @@ create database cafe;`
 ### ****Create the `application.properties` File**
 
 서버포트 : 8085
+
+
+--
+## 릴레이션 스키마 수정해야 할 부분
+creatDate 추가 - 
