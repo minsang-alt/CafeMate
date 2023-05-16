@@ -48,8 +48,6 @@ public class MenuController {
     @GetMapping("/menus")
     public String productListShow(){
 
-
-
         return "menu/menuList";
     }
 

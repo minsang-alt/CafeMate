@@ -1,4 +1,4 @@
-
+/*<!CDATA[*/
 //(1) 상품리스트 로드하기
 function menuLoad(){
     //get은 디폴트
@@ -6,7 +6,13 @@ function menuLoad(){
         url:`/api/menu`,
         dataType:"json"
     }).done(res=>{
-        console.log(res);
+        //console.log("성공" , res);
+
+        res.data.forEach((menu)=>{
+            let menuItem = getMenuItem(menu);
+            $("#menu-list").append(menuItem);
+        });
+
     }).fail(error=>{
         console.log("오류",error);
     })
@@ -14,16 +20,37 @@ function menuLoad(){
 
 menuLoad();
 
-function getMenuItem(){
-    let item=`<tr>
-            <td>아이스아메리카노</td>
-            <td>coffee</td>
-            <td>3300원</td>
-            <td>판매중</td>
+function getMenuItem(menu){
+    let onSaleText = menu.onSale ? "판매중" : "판매중단";
+    let item=`<tr id="menuList-${menu.id}">
+            <td>${menu.name}</td>
+            <td>${menu.category}</td>
+            <td>${menu.price}</td>
+            <td>${onSaleText}</td>
             <td>
-                <a href="#" class="btn btn-primary">Edit</a>
-                <a href="#" class="btn btn-danger">Delete</a>
+                <button onclick="" class="btn btn-primary">Edit</button>
+                <button onclick="deleteMenu(${menu.id})" class="btn btn-danger">Delete</button>
             </td>
         </tr>`;
     return item;
+
 }
+
+//메뉴 삭제
+function deleteMenu(menuId){
+    let result = confirm('정말로 삭제하시겠습니까?');
+    if(result) {
+        $.ajax({
+            type: "delete",
+            url: `/api/menu/${menuId}`,
+            dataType:"json"
+        }).done(res=>{
+            $(`#menuList-${menuId}`).remove();
+        }).fail(error=>{
+            console.log("오류",error);
+        })
+    }
+}
+
+
+/*]]>*/
