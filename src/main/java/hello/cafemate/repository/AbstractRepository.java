@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -38,4 +39,19 @@ public abstract class AbstractRepository<T, V> {
         Connection con=DataSourceUtils.getConnection(dataSource);
         return con;
     }
+
+    protected String getUpdateQuery(String sql, List<String> paramList) {
+        for(int i = 0; i< paramList.size(); i++){
+            if(i== paramList.size()-1){
+                sql += paramList.get(i);
+                break;
+            }
+
+            sql += paramList.get(i)+", ";
+        }
+
+        sql += " where id=:id";
+        return sql;
+    }
+
 }

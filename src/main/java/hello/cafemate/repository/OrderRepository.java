@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -98,34 +99,37 @@ public class OrderRepository extends AbstractRepository<Order, OrderUpdateDto> {
         Boolean isComplete = updateParam.getIsComplete();
         LocalDateTime orderDate = updateParam.getOrderDate();
 
+        List<String> paramList = new ArrayList<>();
         MapSqlParameterSource param = new MapSqlParameterSource();
 
         if (quantity != null) {
-            sql += " quantity=:quantity ";
+            paramList.add("quantity=:quantity");
             param.addValue("quantity", quantity);
         }
 
         if (payments != null) {
-            sql += "payments=:payments ";
+            paramList.add("payments=:payments");
             param.addValue("payments", payments);
         }
 
         if (usePointAmount != null) {
-            sql += "use_point_amount=:usePointAmount ";
+            paramList.add("use_point_amount=:usePointAmount");
             param.addValue("usePointAmount", usePointAmount);
         }
 
         if (isComplete != null) {
-            sql += "is_complete=:isComplete ";
+            paramList.add("is_complete=:isComplete");
             param.addValue("isComplete", isComplete ? 1 : 0);
         }
 
         if (orderDate != null) {
-            sql += "order_date=:orderDate ";
+            paramList.add("order_date=:orderDate");
             param.addValue("orderDate", orderDate);
         }
 
-        sql += "where id=:id";
+        if(paramList.size()==0) return;
+
+        sql = getUpdateQuery(sql, paramList);
         param.addValue("id", id);
 
         template.update(sql, param);

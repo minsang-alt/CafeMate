@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.Timestamp;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -51,23 +52,6 @@ public class PointRepository extends AbstractRepository<Point, PointUpdateDto> {
             return Optional.empty();
         }
     }
-
-    public Optional<Point> findByDto(PointDto dto){
-        String sql="select id, customer_id, amount, saved_date " +
-                "from point where customer_id=:customerId and " +
-                "amount=:amount and saved_date=:savedDate";
-
-        MapSqlParameterSource param = new MapSqlParameterSource().addValue("customerId", dto.getCustomerId())
-                .addValue("amount", dto.getAmount())
-                .addValue("savedDate", dto.getSavedDate());
-
-        try{
-            Point point = template.queryForObject(sql, param, pointRowMapper());
-            return Optional.of(point);
-        }catch(EmptyResultDataAccessException e){
-            return Optional.empty();
-        }
-    }
     
     public List<Point> findAllByCustomerId(Long customerId){
         String sql="select id, customer_id, amount, saved_date" +
@@ -86,19 +70,22 @@ public class PointRepository extends AbstractRepository<Point, PointUpdateDto> {
         Integer amount = updateParam.getAmount();
         ZonedDateTime savedDate = updateParam.getSavedDate();
 
+        List<String> paramList = new ArrayList<>();
         MapSqlParameterSource param = new MapSqlParameterSource();
 
         if(amount!=null){
-            sql+="amount=:amount";
+            paramList.add("amount=:amount");
             param.addValue("amount", amount);
         }
 
         if(savedDate!=null){
-            sql+="saved_date=:savedDate";
+            paramList.add("saved_date=:savedDate");
             param.addValue("savedDate", savedDate.toLocalDateTime());
         }
 
-        sql+=" where id=:id";
+        if(paramList.size()==0) return;
+
+       sql=getUpdateQuery(sql, paramList);
         param.addValue("id", id);
 
         template.update(sql, param);

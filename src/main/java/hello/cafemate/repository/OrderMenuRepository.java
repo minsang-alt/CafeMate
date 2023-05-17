@@ -58,6 +58,7 @@ public class OrderMenuRepository extends AbstractRepository<OrderMenu, OrderMenu
 
     @Override
     public void update(Long id, OrderMenu updateParam) {
+
     }
 
     @Override
