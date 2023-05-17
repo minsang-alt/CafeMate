@@ -28,7 +28,7 @@ function getMenuItem(menu){
             <td>${menu.price}</td>
             <td>${onSaleText}</td>
             <td>
-                <button onclick="" class="btn btn-primary">Edit</button>
+                <button onclick="updateMenu(${menu.id})" class="btn btn-primary">Edit</button>
                 <button onclick="deleteMenu(${menu.id})" class="btn btn-danger">Delete</button>
             </td>
         </tr>`;
@@ -52,5 +52,10 @@ function deleteMenu(menuId){
     }
 }
 
+//메뉴수정
+function updateMenu(menuId){
+   //관리자가 여러 메뉴중 하나를 택하여
+
+}
 
 /*]]>*/
