@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -82,34 +83,37 @@ public class MenuRepository extends AbstractRepository<Menu, MenuUpdateDto> {
         Boolean onSale = updateParam.getOnSale();
         LocalDateTime registrationDate = updateParam.getRegistrationDate();
 
+        List<String> paramList = new ArrayList<>();
         MapSqlParameterSource param=new MapSqlParameterSource();
 
         if(StringUtils.hasText(name)){
-            sql+="name=:name ";
+            paramList.add("name=:name");
             param.addValue("name", name);
         }
 
         if(category!=null){
-            sql+="category=:category ";
+            paramList.add("category=:category");
             param.addValue("category", category.toString());
         }
 
         if(price!=null){
-            sql+="price=:price ";
+            paramList.add("price=:price");
             param.addValue("price", price);
         }
 
         if(onSale!=null){
-            sql+="on_sale=:onSale ";
+            paramList.add("on_sale=:onSale");
             param.addValue("onSale", onSale?1:0);
         }
 
         if(registrationDate!=null){
-            sql+="registration_date=:registrationDate ";
+            paramList.add("registration_date=:registrationDate");
             param.addValue("registrationDate", registrationDate);
         }
 
-        sql+="where id=:id";
+        if(paramList.size()==0) return;
+
+        sql=getUpdateQuery(sql, paramList);
         param.addValue("id", id);
 
         template.update(sql, param);

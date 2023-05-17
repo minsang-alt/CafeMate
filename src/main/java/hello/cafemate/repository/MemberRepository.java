@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -78,41 +79,42 @@ public class MemberRepository extends AbstractRepository<Member, MemberUpdateDto
         String eMail = updateParam.getEMail();
         Boolean isAdmin = updateParam.getIsAdmin();
 
+        List<String> paramList = new ArrayList<>();
         MapSqlParameterSource param = new MapSqlParameterSource();
 
         if(StringUtils.hasText(memberId)){
-            sql+="member_id=:memberId";
+            paramList.add("member_id=memberId");
             param.addValue("memberId", memberId);
         }
 
         if(StringUtils.hasText(password)){
-            sql+=" password=:password";
+            paramList.add("password=:password");
             param.addValue("password", password);
         }
 
         if(StringUtils.hasText(name)){
-            sql+=" name=:name";
+            paramList.add("name=:name");
             param.addValue("name", name);
         }
 
         if(StringUtils.hasText(phoneNumber)){
-            sql+=" phone_number=:phoneNumber";
+            paramList.add("phone_number=:phoneNumber");
             param.addValue("phoneNumber", phoneNumber);
         }
 
         if(StringUtils.hasText(eMail)){
-            sql+=" e_mail=:eMail";
+            paramList.add("e_mail=:eMail");
             param.addValue("eMail", eMail);
         }
 
         if(isAdmin!=null){
-            sql+=" is_admin=:isAdmin";
+            paramList.add("is_admin=:isAdmin");
             param.addValue("isAdmin", isAdmin?1:0);
         }
 
-        sql+=" where id=:id";
-        param.addValue("id", id);
 
+        sql=getUpdateQuery(sql, paramList);
+        param.addValue("id", id);
         template.update(sql, param);
     }
 

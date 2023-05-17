@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -83,44 +84,45 @@ public class CustomerRepository extends AbstractRepository<Customer, CustomerUpd
         String eMail = updateParam.getEMail();
         int savedPoint = updateParam.getSavedPoint();
 
+        List<String> paramList = new ArrayList<>();
         MapSqlParameterSource param = new MapSqlParameterSource();
 
         if(StringUtils.hasText(customerId)){
-            sql+="customer_id=:customerId";
+            paramList.add("customer_id=:customerId");
             param.addValue("customerId", customerId);
         }
 
         if(StringUtils.hasText(name)){
-            sql+=" name=:name";
+            paramList.add("name=:name");
             param.addValue("name", name);
         }
 
         if(StringUtils.hasText(password)){
-            sql+=" password=:password";
+            paramList.add("password=:password");
             param.addValue("password", password);
         }
 
         if(StringUtils.hasText(alias)){
-            sql+=" alias=:alias";
+            paramList.add("alias=:alias");
             param.addValue("alias", alias);
         }
 
         if(StringUtils.hasText(phoneNumber)){
-            sql+=" phone_number=:phoneNumber";
+            paramList.add("phone_number=:phoneNumber");
             param.addValue("phoneNumber", phoneNumber);
         }
 
         if(StringUtils.hasText(eMail)){
-            sql+=" e_mail=:eMail";
+            paramList.add("e_mail=:eMail");
             param.addValue("eMail", eMail);
         }
 
         if(savedPoint!=0){
-            sql+=" saved_point=:savedPoint";
+            paramList.add("saved_point=:savedPoint");
             param.addValue("savedPoint", savedPoint);
         }
 
-        sql+=" where id=:id";
+        sql=getUpdateQuery(sql, paramList);
         param.addValue("id", id);
 
         template.update(sql, param);
