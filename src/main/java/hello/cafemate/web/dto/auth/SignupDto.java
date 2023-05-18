@@ -1,11 +1,14 @@
 package hello.cafemate.web.dto.auth;
 
+import hello.cafemate.dto.simple_dto.CustomerDto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.Getter;
 
 @Data
+@Getter
 public class SignupDto {
 @NotBlank
 @Size(min=5,max=30)
@@ -25,6 +28,17 @@ private String nickName;
 @Size(max=13)
 private String userContact;
 
+public CustomerDto toEntity(){
+    return new CustomerDto(
+            this.userId,
+            this.email,
+            this.password,
+            this.fullName,
+            this.userContact,
+            this.nickName,
+            0 // 초기 savedPoint 값
+    );
+}
 
 
 

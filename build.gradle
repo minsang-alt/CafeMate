@@ -29,6 +29,8 @@ dependencies {
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.7.5'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '3.0.5'
 
+	// Thymeleaf와 Spring Security 통합을 위한 의존성
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
