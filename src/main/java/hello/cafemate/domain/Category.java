@@ -1,5 +1,5 @@
 package hello.cafemate.domain;
 
 public enum Category {
-    Coffee, Latte, Bakery
+    COFFEE,LATTE,BAKERY
 }

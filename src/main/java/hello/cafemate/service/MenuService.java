@@ -1,7 +1,7 @@
 package hello.cafemate.service;
 
 import hello.cafemate.domain.Menu;
-import hello.cafemate.dto.simple_dto.MenuDto;
+import hello.cafemate.web.dto.menu.MenuDto;
 import hello.cafemate.dto.update_dto.MenuUpdateDto;
 import hello.cafemate.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +34,7 @@ public class MenuService {
     }
 
     public void updateOne(MenuDto menuDto, MenuUpdateDto updateParam){
-        Optional<Menu> result = menuRepository.findByName(menuDto.getName());
+        Optional<Menu> result = menuRepository.findByName(menuDto.getProduct_name());
         if(result.isEmpty()){
             throw new IllegalStateException("수정하려는 메뉴가 존재하지 않습니다.");
         }
@@ -44,7 +44,7 @@ public class MenuService {
     }
 
     public void deleteOne(MenuDto menuDto){
-        Optional<Menu> result = menuRepository.findByName(menuDto.getName());
+        Optional<Menu> result = menuRepository.findByName(menuDto.getProduct_name());
         if(result.isEmpty()){
             throw new IllegalStateException("삭제하려는 메뉴가 존재하지 않습니다.");
         }
@@ -56,10 +56,10 @@ public class MenuService {
 
     private Menu dtoToEntity(MenuDto menuDto){
         return new Menu(
-                menuDto.getName(),
+                menuDto.getProduct_name(),
                 menuDto.getCategory(),
                 menuDto.getPrice(),
-                menuDto.isOnSale(),
+                menuDto.getOn_sale(),
                 menuDto.getRegistrationDate()
         );
     }

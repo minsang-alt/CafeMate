@@ -27,10 +27,12 @@ function getMenuItem(menu){
             <td>${menu.category}</td>
             <td>${menu.price}</td>
             <td>${onSaleText}</td>
+            <th:block sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')">
             <td>
                 <button onclick="updateMenu(${menu.id})" class="btn btn-primary">Edit</button>
                 <button onclick="deleteMenu(${menu.id})" class="btn btn-danger">Delete</button>
             </td>
+            </th:block>
         </tr>`;
     return item;
 
