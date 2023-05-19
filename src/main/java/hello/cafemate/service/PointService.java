@@ -1,3 +1,4 @@
+/*
 package hello.cafemate.service;
 
 import hello.cafemate.domain.Customer;
@@ -22,12 +23,14 @@ import java.util.stream.Collectors;
 public class PointService {
     private final PointRepository pointRepository;
 
-    /**
+    */
+/**
      * CustomerRepository 필드를 가지므로 더 직관적, 효율적으로
      * Customer를 탐색하여 Point 적립 연산에 활용할 수 있다.
      * CustomerService를 사용할 경우, 불필요한 의존관계
      * (PointService -> CustomerService)가 발생한다.
-     */
+     *//*
+
     private final CustomerRepository customerRepository;
 
     @Transactional
@@ -110,3 +113,4 @@ public class PointService {
         );
     }
 }
+*/
