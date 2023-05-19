@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -18,19 +19,21 @@ public class SecurityConfig {
     }
 
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable();
         httpSecurity.authorizeHttpRequests()
-                .requestMatchers("/user/**").hasAnyRole("ADMIN", "MANAGER") // "/user/**" 패턴에 대한 접근 제어
+                .requestMatchers("/admin/**","/auth/admin/signup").hasAnyRole("ADMIN", "MANAGER") // "/admin/**" 패턴에 대한 접근 제어
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/auth/signin") // 로그인 페이지
                 .loginProcessingUrl("/auth/signin") // 로그인 처리 URL
-                .defaultSuccessUrl("/"); // 로그인 성공 시 이동할 기본 URL
-
+                .defaultSuccessUrl("/")// 로그인 성공 시 이동할 기본 URL
+                .and()
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
+                .logoutSuccessUrl("/");
         return httpSecurity.build();
     }
 }

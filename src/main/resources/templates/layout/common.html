@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://thymeleaf.org/extras/spring-security"
+>
 <head th:fragment="html-head">
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -94,7 +96,7 @@
 <body>
 <div th:fragment="header">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Cafe Mate</a>
+    <a class="navbar-brand" href="/">Cafe Mate</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -103,18 +105,19 @@
             <li class="nav-item active">
                 <a class="nav-link" href="#"><span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">고객</a>
-            </li>
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="productsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     상품
                 </a>
                 <div class="dropdown-menu" aria-labelledby="productsDropdown">
+                    <th:block sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')">
                     <a class="dropdown-item" href="/admin/menus">상품 등록</a>
+                    </th:block>
                     <a class="dropdown-item" href="/menus">상품 목록</a>
                 </div>
             </li>
+            <th:block sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="orderDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     주문
@@ -122,10 +125,29 @@
                 <div class="dropdown-menu" aria-labelledby="orderDropdown">
                     <a class="dropdown-item" href="#">전체 주문 목록</a>
                     <a class="dropdown-item" href="#">매출 분석</a>
+
                 </div>
             </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    관리자
+                </a>
+                <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                    <a class="dropdown-item" href="/auth/admin/signup">멤버 회원가입</a>
+                    <a class="dropdown-item" href="#">고객 리스트</a>
+                </div>
+            </li>
+            </th:block>
         </ul>
+
+       <th:block sec:authorize="isAuthenticated()">
+           <a href="/member/logout" class="btn btn-outline-dark">로그아웃</a>
+       </th:block>
+
+        <th:block sec:authorize="!isAuthenticated()">
         <a href="/auth/signin" class="btn btn-outline-dark">로그인</a>
+        </th:block>
     </div>
 </nav>
 </div>

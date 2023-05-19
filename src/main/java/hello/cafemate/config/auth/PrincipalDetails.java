@@ -1,12 +1,13 @@
 package hello.cafemate.config.auth;
 
+import hello.cafemate.domain.Customer;
+import hello.cafemate.domain.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
-/*
 import java.util.List;
 
 public class PrincipalDetails implements UserDetails {
@@ -28,7 +29,8 @@ public class PrincipalDetails implements UserDetails {
             authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         }
         if(member!=null){
-            if(member.isAdmin()){
+            if(member.isIsAdmin()){
+                System.out.println("어드민 접근");
                 authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
             }else{
                 authorities.add(new SimpleGrantedAuthority("ROLE_MANAGER"));
@@ -40,13 +42,17 @@ public class PrincipalDetails implements UserDetails {
     //user의 정보를 가져오는 Getter
     @Override //user의 password를 가져오는 메서드
     public String getPassword() {
-        return null;
+        if(customer!=null)return customer.getPassword();
+        else return member.getPassword();
     }
 
     @Override //user의 username을 가져오는 메서드
     public String getUsername() {
-        return null;
+        if(customer!=null)return customer.getCustomerId();
+        else return member.getMemberId();
     }
+
+
 
     //return이 true일때, 정상적으로 로그인 로직이 실행됨
     @Override //계정이 만료되지 않았는가?
@@ -69,4 +75,3 @@ public class PrincipalDetails implements UserDetails {
         return true; //응 , 계정 활성화가 되어있어
     }
 }
-*/

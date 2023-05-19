@@ -22,14 +22,22 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    testImplementation 'org.projectlombok:lombok:1.18.22'
+	testImplementation 'org.projectlombok:lombok:1.18.22'
+
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.7.5'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '3.0.5'
+
+	// Thymeleaf와 Spring Security 통합을 위한 의존성
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {
