@@ -26,6 +26,7 @@ public class MenuApiController {
         List<MenuDto> menus = menuService.findAll();
 
 
+
       return new ResponseEntity<>(new RespDto<>(1,"성공",menus), HttpStatus.OK);
 
     }
@@ -35,6 +36,7 @@ public class MenuApiController {
     public ResponseEntity<?>menuDelete(@PathVariable long id)
     {
         //menu의 id전달하며 제거
+        menuService.deleteById(id);
         return new ResponseEntity<>(new RespDto<>(1,"댓글삭제성공",null),HttpStatus.OK);
     }
 

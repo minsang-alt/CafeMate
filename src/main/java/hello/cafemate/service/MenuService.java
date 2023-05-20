@@ -53,6 +53,14 @@ public class MenuService {
         menuRepository.deleteById(menu.getId());
     }
 
+    //id를 넘겨 제거합니다. id는 view단에서도 추가되어야해서 id도 dto에서 관리하도록 함. 나중에 피드백 부탁
+    //Connection is read-only. Queries leading to data modification are not allowed
+    //위의 오류떠서 트랜잭션 어노테이션 추가및 false로 바꿨음 원래 default가 false인데 왜그러지; 암튼 이거 추가하고 오류 안생김
+    @Transactional(readOnly = false)
+    public void deleteById(Long id){
+
+        menuRepository.deleteById(id);
+    }
 
     private Menu dtoToEntity(MenuDto menuDto){
         return new Menu(
@@ -66,6 +74,7 @@ public class MenuService {
 
     private MenuDto entityToDto(Menu menu){
         return new MenuDto(
+                menu.getId(),
                 menu.getName(),
                 menu.getCategory(),
                 menu.getPrice(),

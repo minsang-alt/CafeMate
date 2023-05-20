@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class MenuDto {
-
+private Long id;
 @NotBlank
 private String product_name;
 @NotNull
@@ -26,8 +26,9 @@ private Timestamp registrationDate;
         registrationDate = timestamp;
     }
 
-    public MenuDto(String product_name, Category category,Integer price,Boolean on_sale,Timestamp localDateTime)
+    public MenuDto(Long id,String product_name, Category category,Integer price,Boolean on_sale,Timestamp localDateTime)
     {
+        this.id = id;
         this.product_name = product_name;
         this.category = category;
         this.price = price;
