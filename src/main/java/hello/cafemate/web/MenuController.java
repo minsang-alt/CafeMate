@@ -39,7 +39,7 @@ public class MenuController {
             }
             throw new CustomValidationException("유효성검사 실패",errorMap);
         }else{
-            //상품 DB에 등록하고
+            //상품 DB에 등록
             System.out.println(menuDto);
             menuService.registerMenu(menuDto);
 

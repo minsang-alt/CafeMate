@@ -1,6 +1,8 @@
 package hello.cafemate.web.api;
 
+import hello.cafemate.service.MenuService;
 import hello.cafemate.web.dto.RespDto;
+import hello.cafemate.web.dto.menu.MenuDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,19 +19,15 @@ import java.util.List;
 @RestController
 public class MenuApiController {
 
+    private final MenuService menuService;
     @GetMapping("/api/menu")
     public ResponseEntity<?> menuList(){
 
-        //menus = menuService.메뉴리스트()
-       // System.out.println("여긴 오냐?");
-        //List<Menu> menus = new ArrayList<>();//리스트초기화
-       // LocalDateTime now = LocalDateTime.now();
-       // menus.add(new Menu(1L,"아이스아메리카노", Category.Coffee,3000,true,now));
-       // menus.add(new Menu(2L,"카페라떼", Category.Latte,2500,true,now));
+        List<MenuDto> menus = menuService.findAll();
 
 
-      //  return new ResponseEntity<>(new RespDto<>(1,"성공",menus), HttpStatus.OK);
-        return null;
+      return new ResponseEntity<>(new RespDto<>(1,"성공",menus), HttpStatus.OK);
+
     }
 
 

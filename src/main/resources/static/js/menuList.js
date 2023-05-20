@@ -1,4 +1,9 @@
 /*<!CDATA[*/
+
+
+let principal = $(".principal").val();
+
+
 //(1) 상품리스트 로드하기
 function menuLoad(){
     //get은 디폴트
@@ -9,6 +14,7 @@ function menuLoad(){
         //console.log("성공" , res);
 
         res.data.forEach((menu)=>{
+            console.log(menu);
             let menuItem = getMenuItem(menu);
             $("#menu-list").append(menuItem);
         });
@@ -21,19 +27,21 @@ function menuLoad(){
 menuLoad();
 
 function getMenuItem(menu){
-    let onSaleText = menu.onSale ? "판매중" : "판매중단";
+    let onSaleText = menu.on_sale ? "판매중" : "판매중단";
+    let auth = `<td>
+                <button onclick="updateMenu(${menu.id})" class="btn btn-primary">Edit</button>
+                <button onclick="deleteMenu(${menu.id})" class="btn btn-danger">Delete</button>
+        </td>`;
     let item=`<tr id="menuList-${menu.id}">
-            <td>${menu.name}</td>
+            <td>${menu.product_name}</td>
             <td>${menu.category}</td>
             <td>${menu.price}</td>
             <td>${onSaleText}</td>
-            <th:block sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')">
-            <td>
-                <button onclick="updateMenu(${menu.id})" class="btn btn-primary">Edit</button>
-                <button onclick="deleteMenu(${menu.id})" class="btn btn-danger">Delete</button>
-            </td>
-            </th:block>
-        </tr>`;
+           `
+
+        if(principal=='admin') item+= `${auth}`;
+
+        item+= `</tr>`;
     return item;
 
 }

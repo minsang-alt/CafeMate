@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://thymeleaf.org/extras/spring-security">
 <head th:replace="layout/common :: html-head">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,7 +26,8 @@
             <th>카테고리</th>
             <th>가격</th>
             <th>판매여부</th>
-            <th>Action</th>
+
+            <th sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')">Action</th>
         </tr>
         </thead>
         <tbody id="menu-list">
