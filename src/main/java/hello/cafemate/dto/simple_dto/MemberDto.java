@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public class MemberDto {
     private String memberId;
+
     private String password;
     private String name;
     private String phoneNumber;
