@@ -136,7 +136,7 @@ public class MenuRepository extends AbstractRepository<Menu, MenuUpdateDto> {
                 Category.valueOf(rs.getString("category")),
                 rs.getInt("price"),
                 rs.getInt("on_sale")==0?true:false,
-                rs.getTimestamp("registration_date").toLocalDateTime()
+                rs.getTimestamp("registration_date")
         );
     }
 
