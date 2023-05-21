@@ -1,6 +1,6 @@
 package hello.cafemate.web.dto.auth;
 
-import hello.cafemate.dto.simple_dto.CustomerDto;
+import hello.cafemate.web.dto.user.CustomerDto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
