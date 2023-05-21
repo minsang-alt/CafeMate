@@ -4,7 +4,7 @@ import hello.cafemate.domain.Category;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -13,7 +13,7 @@ public class MenuUpdateDto {
     private Category category;
     private Integer price;
     private Boolean onSale;
-    private LocalDateTime registrationDate;
+    private Timestamp registrationDate;
 
     public MenuUpdateDto(){}
 }
