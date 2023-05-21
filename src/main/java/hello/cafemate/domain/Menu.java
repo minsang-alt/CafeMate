@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import java.sql.Timestamp;
 
+
 @Getter
 @EqualsAndHashCode
 public class Menu {

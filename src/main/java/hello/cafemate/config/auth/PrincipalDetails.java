@@ -2,6 +2,7 @@ package hello.cafemate.config.auth;
 
 import hello.cafemate.domain.Customer;
 import hello.cafemate.domain.Member;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Data
 public class PrincipalDetails implements UserDetails {
 
     private static final long serialVersionUID = 1L;

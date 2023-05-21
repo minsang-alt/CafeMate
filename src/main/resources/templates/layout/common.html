@@ -94,8 +94,20 @@
     </style>
 </head>
 <body>
+
+
 <div th:fragment="header">
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- principalId 담아두는 곳 -->
+    <th:block sec:authorize="isAuthenticated()">
+        <th:block sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')">
+            <input type="hidden" class="principal" value="admin">
+        </th:block>
+        <th:block sec:authorize="hasRole('ROLE_USER')">
+            <input type="hidden" class="principal" value="user">
+        </th:block>
+    </th:block>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/">Cafe Mate</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -148,6 +160,9 @@
         <th:block sec:authorize="!isAuthenticated()">
         <a href="/auth/signin" class="btn btn-outline-dark">로그인</a>
         </th:block>
+
+
+
     </div>
 </nav>
 </div>

@@ -6,10 +6,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 @Data
-public class MenuDto {
+public class MenuUpdateDto {
 private Long id;
 @NotBlank
 private String product_name;
@@ -21,12 +20,12 @@ private Integer price;
 private Boolean on_sale;
 
 private Timestamp registrationDate;
-    public MenuDto() {
+    public MenuUpdateDto() {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         registrationDate = timestamp;
     }
 
-    public MenuDto(Long id,String product_name, Category category,Integer price,Boolean on_sale,Timestamp localDateTime)
+    public MenuUpdateDto(Long id, String product_name, Category category, Integer price, Boolean on_sale, Timestamp localDateTime)
     {
         this.id = id;
         this.product_name = product_name;
