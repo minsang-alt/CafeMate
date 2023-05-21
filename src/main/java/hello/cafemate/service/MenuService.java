@@ -2,7 +2,7 @@ package hello.cafemate.service;
 
 import hello.cafemate.domain.Menu;
 import hello.cafemate.web.dto.menu.MenuDto;
-import hello.cafemate.dto.update_dto.MenuUpdateDto;
+import hello.cafemate.web.dto.menu.MenuUpdateDto;
 import hello.cafemate.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,10 @@ public class MenuService {
 
         return menuDtoList;
     }
-
+    //해당 id에 대한 하나의 메뉴정보 가져오기 피드백 부탁
+    public MenuDto findOne(Long menuId){
+        return entityToDto(menuRepository.findById(menuId).get());
+    }
     public void updateOne(MenuDto menuDto, MenuUpdateDto updateParam){
         Optional<Menu> result = menuRepository.findByName(menuDto.getProduct_name());
         if(result.isEmpty()){
@@ -60,6 +63,13 @@ public class MenuService {
     public void deleteById(Long id){
 
         menuRepository.deleteById(id);
+
+    }
+
+    //마찬가지로 id로 넘겨 수정
+    @Transactional(readOnly = false)
+    public void updateById(Long id,MenuUpdateDto updateParam){
+        menuRepository.update(id, updateParam);
     }
 
     private Menu dtoToEntity(MenuDto menuDto){

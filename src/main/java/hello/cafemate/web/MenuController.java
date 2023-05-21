@@ -7,9 +7,11 @@ import hello.cafemate.web.dto.menu.MenuDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.HashMap;
@@ -49,6 +51,15 @@ public class MenuController {
 
 
 
+    }
+    //메뉴 수정 페이지
+    @GetMapping("/admin/menus/{menuId}")
+    public String menuUpdate(@PathVariable Long menuId, Model model){
+        //메뉴id와 관련된 dto를 메뉴수정페이지에 넘김
+        MenuDto menuDto = menuService.findOne(menuId);
+        model.addAttribute("dto",menuDto);
+
+        return "menu/menuUpdateForm";
     }
 
     @GetMapping("/menus")

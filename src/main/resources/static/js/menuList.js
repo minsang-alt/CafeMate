@@ -14,7 +14,7 @@ function menuLoad(){
         //console.log("성공" , res);
 
         res.data.forEach((menu)=>{
-            console.log(menu);
+           // console.log(menu);
             let menuItem = getMenuItem(menu);
             $("#menu-list").append(menuItem);
         });
@@ -29,7 +29,7 @@ menuLoad();
 function getMenuItem(menu){
     let onSaleText = menu.on_sale ? "판매중" : "판매중단";
     let auth = `<td>
-                <button onclick="updateMenu(${menu.id})" class="btn btn-primary">Edit</button>
+                <button onclick="location.href='/admin/menus/${menu.id}';" class="btn btn-primary">Edit</button>
                 <button onclick="deleteMenu(${menu.id})" class="btn btn-danger">Delete</button>
         </td>`;
     let item=`<tr id="menuList-${menu.id}">
@@ -62,10 +62,6 @@ function deleteMenu(menuId){
     }
 }
 
-//메뉴수정
-function updateMenu(menuId){
-   //관리자가 여러 메뉴중 하나를 택하여
 
-}
 
 /*]]>*/

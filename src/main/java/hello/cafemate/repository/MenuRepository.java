@@ -2,7 +2,7 @@ package hello.cafemate.repository;
 
 import hello.cafemate.domain.Category;
 import hello.cafemate.domain.Menu;
-import hello.cafemate.dto.update_dto.MenuUpdateDto;
+import hello.cafemate.web.dto.menu.MenuUpdateDto;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import javax.sql.DataSource;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,11 +78,11 @@ public class MenuRepository extends AbstractRepository<Menu, MenuUpdateDto> {
     public void update(Long id, MenuUpdateDto updateParam) {
         String sql="update menu set ";
 
-        String name = updateParam.getName();
+        String name = updateParam.getProduct_name();
         Category category = updateParam.getCategory();
         Integer price = updateParam.getPrice();
-        Boolean onSale = updateParam.getOnSale();
-        LocalDateTime registrationDate = updateParam.getRegistrationDate();
+        Boolean onSale = updateParam.getOn_sale();
+        Timestamp registrationDate = updateParam.getRegistrationDate();
 
         List<String> paramList = new ArrayList<>();
         MapSqlParameterSource param=new MapSqlParameterSource();
