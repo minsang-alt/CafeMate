@@ -1,4 +1,4 @@
-package hello.cafemate.dto.simple_dto;
+package hello.cafemate.web.dto.user;
 
 import lombok.Getter;
 

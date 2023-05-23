@@ -1,6 +1,6 @@
 package hello.cafemate.web.dto.auth;
 
-import hello.cafemate.dto.simple_dto.MemberDto;
+import hello.cafemate.web.dto.user.MemberDto;
 import lombok.Data;
 import lombok.Getter;
 
