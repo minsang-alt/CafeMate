@@ -4,11 +4,11 @@ import hello.cafemate.domain.Customer;
 import hello.cafemate.domain.Order;
 import hello.cafemate.domain.OrderMenu;
 import hello.cafemate.web.dto.user.CustomerDto;
-import hello.cafemate.dto.simple_dto.MenuDto;
 import hello.cafemate.dto.simple_dto.OrderDto;
 import hello.cafemate.repository.CustomerRepository;
 import hello.cafemate.repository.MenuRepository;
 import hello.cafemate.repository.OrderRepository;
+import hello.cafemate.web.dto.menu.MenuDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,7 +75,7 @@ public class OrderService {
 
     private List<Long> getMenuIds(List<MenuDto> menuList) {
         return menuList.stream()
-                .map(menuDto->menuRepository.findByName(menuDto.getName())
+                .map(menuDto->menuRepository.findByName(menuDto.getProduct_name())
                         .orElseThrow(()->new IllegalArgumentException("추가하려는 메뉴가 존재하지 않습니다."))
                         .getId())
                 .collect(Collectors.toList());
