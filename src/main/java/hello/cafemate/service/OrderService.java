@@ -3,7 +3,7 @@ package hello.cafemate.service;
 import hello.cafemate.domain.Customer;
 import hello.cafemate.domain.Order;
 import hello.cafemate.domain.OrderMenu;
-import hello.cafemate.dto.simple_dto.CustomerDto;
+import hello.cafemate.web.dto.user.CustomerDto;
 import hello.cafemate.dto.simple_dto.MenuDto;
 import hello.cafemate.dto.simple_dto.OrderDto;
 import hello.cafemate.repository.CustomerRepository;

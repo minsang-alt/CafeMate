@@ -1,8 +1,7 @@
 package hello.cafemate.web;
 
-import ch.qos.logback.core.CoreConstants;
-import hello.cafemate.dto.simple_dto.CustomerDto;
-import hello.cafemate.dto.simple_dto.MemberDto;
+import hello.cafemate.web.dto.user.CustomerDto;
+import hello.cafemate.web.dto.user.MemberDto;
 import hello.cafemate.handler.ex.CustomValidationException;
 import hello.cafemate.service.CustomerService;
 import hello.cafemate.service.MemberService;
@@ -82,7 +81,7 @@ public class AuthController {
             throw new CustomValidationException("유효성검사 실패",errorMap);
         }else{
             //관리자 일단 가입 후 다른 회원이 가입하지 못하고 승인받게 다른 방법 추가 필요
-            System.out.println(signupMemberDto.isIsAdmin());
+            //System.out.println(signupMemberDto.isIsAdmin());
             signupMemberDto.setPassword(bCryptPasswordEncoder.encode(signupMemberDto.getPassword()));
             MemberDto memberDto = signupMemberDto.toEntity();
 

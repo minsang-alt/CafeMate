@@ -1,7 +1,7 @@
 package hello.cafemate.service;
 
 import hello.cafemate.domain.Customer;
-import hello.cafemate.dto.simple_dto.CustomerDto;
+import hello.cafemate.web.dto.user.CustomerDto;
 import hello.cafemate.dto.update_dto.CustomerUpdateDto;
 import hello.cafemate.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
@@ -57,7 +57,7 @@ public class CustomerService {
     }
 
     private CustomerDto entityToDto(Customer customer){
-        return new CustomerDto(customer.getCustomerId(), customer.getEMail(), customer.getPassword(),
+        return new CustomerDto(customer.getId(),customer.getCustomerId(), customer.getEMail(), customer.getPassword(),
                 customer.getName(), customer.getPhoneNumber(), customer.getAlias(), customer.getSavedPoint());
     }
 }

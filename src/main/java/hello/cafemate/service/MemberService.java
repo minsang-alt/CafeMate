@@ -1,7 +1,7 @@
 package hello.cafemate.service;
 
 import hello.cafemate.domain.Member;
-import hello.cafemate.dto.simple_dto.MemberDto;
+import hello.cafemate.web.dto.user.MemberDto;
 import hello.cafemate.dto.update_dto.MemberUpdateDto;
 import hello.cafemate.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
