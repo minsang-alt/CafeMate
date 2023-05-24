@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://thymeleaf.org/extras/spring-security">
+<head th:replace="layout/common :: html-head">
+  <title>주문 등록 페이지</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+</head>
+<body>
+<div th:replace="layout/common :: header"></div>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">주문 등록 페이지</div>
+        <div class="card-body">
+          <form>
+            <div class="form-group">
+              <label for="customer_name">고객 아이디:</label>
+              <select id="customer_name" name="customer_name" class="form-control" required>
+                <option selected disabled>선택하세요.</option>
+
+                <!-- 추후 회원 목록에 따라 옵션 추가 -->
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="customer_phone">연락처:</label>
+              <input type="tel" id="customer_phone" name="customer_phone" class="form-control" required>
+            </div>
+
+            <label for="points">적립된 포인트:</label>
+            <input type="number" id="points" name="points" value="" readonly><br><br>
+            <label class="custom-checkbox">
+              <input type="checkbox" id="use-points" onchange="applyPoints()">
+              <span></span> 포인트 사용
+            </label>
+
+            <div class="row" id="menu_item_container"></div>
+
+            <div class="form-group">
+              <label for="total_amount">결제 금액:</label>
+              <input type="number" id="total_amount" name="total_amount" class="form-control" value="0" readonly>
+            </div>
+
+            <div class="form-group">
+              <button type="button" id="add_order" class="btn btn-primary">주문 추가</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Additional script to handle dynamic menu items and sold out items -->
+<script th:inline="javascript" >
+  let customerArray =[];
+
+$(document).ready(function (){
+
+
+  function customerLoad(){
+    $.ajax({
+      url:`/api/customers`,
+      dataType:"json"
+    }).done(res=>{
+        console.log("성공",res);
+        customerArray.push(res.data);
+
+      res.data.forEach((customer)=>{
+       customerArray.push(customer);
+
+        let customerItem = getCustomerItem(customer);
+        $("#customer_name").append(customerItem);
+      });
+    }).fail(error=>{
+      console.log("오류",error);
+
+    })
+  }
+  customerLoad();
+
+  function getCustomerItem(customer){
+    let item = `<option class="customerID" value="${customer.id}">${customer.customerId}</option>`;
+    return item;
+  }
+
+
+
+  //(1)메뉴 리스트 가져오기
+  function menuLoad(){
+    //get은 디폴트
+    $.ajax({
+      url:`/api/menu`,
+      dataType:"json"
+    }).done(res=>{
+      //console.log("성공" , res);
+
+      res.data.forEach((menu)=>{
+        let menuItem = getMenuItem(menu)
+        $("#menu_item_container").append(menuItem);
+      });
+
+    }).fail(error=>{
+      console.log("오류",error);
+    })
+  }
+
+  menuLoad();
+
+
+
+  //(2)메뉴리스트 랜더링
+  function  getMenuItem(menu){
+    //판매중인 메뉴만 보이도록 함
+    if(menu.on_sale){
+      let item = `
+                        <div class="col-md-4">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h5 class="card-title">${menu.product_name} <br>  ${menu.price}원</h5>
+                                    <div class="input-group">
+                                        <button class="btn btn-outline-secondary decrease-qty" type="button" id="${menu.id}-minus" data-price="${menu.price}">&minus;</button>
+                                        <input type="text" class="form-control text-center qty-input" id="${menu.id}-qty" value="0" readonly>
+                                        <button class="btn btn-outline-secondary increase-qty" type="button" id="${menu.id}-plus" data-price="${menu.price}">&plus;</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+      return item;
+    }
+  }
+
+
+  function applyPoints() {
+    let checkbox = document.getElementById("use-points");
+    let totalPrice = document.getElementById("total_amount").value;
+    let points = document.getElementById("points").value;
+    let result = parseInt(totalPrice);
+    if (checkbox.checked) {
+      if(points=='')return;
+      result -= parseInt(points);
+    }else{
+      if(points=='')return;
+      result +=parseInt(points);
+    }
+    document.getElementById("total_amount").value=result;
+  }
+
+
+
+
+
+
+});
+
+  $("#customer_name").on("change", function(){
+    //고객의 id를 가져오기
+    let id = $(this).val();
+    //그 id와 매칭되는것을 찾는다
+    customerArray.forEach((customer)=>{
+      //일치한다면 포인트와 연락처 출력
+      if(customer.id==id){
+        $("#customer_phone").val(customer.phoneNumber);
+        $("#points").val(customer.savedPoint);
+      }
+    });
+
+
+  });
+
+
+
+//+버튼 구현
+$(document).on("click", ".increase-qty", function() {
+  console.log("도착");
+  let menuValue = $(this).attr("id").replace("-plus", "");
+  let menuPrice = parseInt($(this).data("price"));
+  let currentQty = parseInt($("#" + menuValue + "-qty").val());
+  $("#" + menuValue + "-qty").val(currentQty + 1);
+  updateTotal(menuPrice);
+});
+
+
+//-버튼 구현
+$(document).on("click", ".decrease-qty", function() {
+  let menuValue = $(this).attr("id").replace("-minus", "");
+  let menuPrice = parseInt($(this).data("price"));
+  let currentQty = parseInt($("#" + menuValue + "-qty").val());
+  if (currentQty > 0) {
+    $("#" + menuValue + "-qty").val(currentQty - 1);
+    updateTotal(-menuPrice);
+  }
+});
+
+//결제금액 출력
+function updateTotal(amount) {
+  let currentTotal = parseInt($("#total_amount").val());
+  $("#total_amount").val(currentTotal + amount);
+}
+
+</script>
+</body>
+</html>

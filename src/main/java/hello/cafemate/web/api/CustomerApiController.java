@@ -23,4 +23,10 @@ public class CustomerApiController {
         List<CustomerDto> customers = customerService.findAll();
         return new ResponseEntity<>(new RespDto<>(1,"성공",customers), HttpStatus.OK);
     }
-}
+
+
+  /*  @GetMapping("/api/customers/{customerId}")
+    public ResponseEntity<?> customerDetail(){
+
+    }*/
+ }
