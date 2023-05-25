@@ -19,6 +19,7 @@ public class OrderDto {
     private Timestamp orderDate;
     private List<OrderMenu> orderMenuList = new ArrayList<>();
 
+
     public OrderDto( int quantity,int payments,
                     int usePointAmount, boolean isComplete,Timestamp orderDate) {
 
@@ -41,7 +42,6 @@ public class OrderDto {
         this.orderDate=order.getOrderDate();
         setOrderMenuList(order.getOrderMenuList());
     }
-
 
 
     public void setCustomerId(Long customerId) {

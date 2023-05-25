@@ -13,7 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -26,7 +28,7 @@ public class OrderService {
     private final MenuRepository menuRepository;
 
     @Transactional
-    public OrderDto createOrder(String customerId, OrderDto orderDto, List<MenuDto> menuList){
+    public OrderDto createOrder(String customerId, OrderDto orderDto, Map<MenuDto, Integer> orderMenuInfo){
         Optional<Customer> foundCustomer =
                 customerRepository.findByCustomerId(customerId);
 
@@ -39,8 +41,11 @@ public class OrderService {
         Order order = orderDtoToEntity(orderDto);
         Long orderId = orderRepository.save(order).getId();
 
+        List<MenuDto> menuList = orderMenuInfo.keySet().stream().collect(Collectors.toList());
         List<Long> menuIds = getMenuIds(menuList);
-        List<OrderMenu> orderMenuList = getOrderMenuList(orderId, menuIds);
+
+        List<Integer> amountList = orderMenuInfo.values().stream().collect(Collectors.toList());
+        List<OrderMenu> orderMenuList = getOrderMenuList(orderId, menuIds, amountList);
         orderRepository.saveMenus(order, orderMenuList)
                 .addMenu(orderMenuList);
 
@@ -67,10 +72,14 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-    private List<OrderMenu> getOrderMenuList(Long orderId, List<Long> menuIds){
-       return menuIds.stream()
-               .map(menuId->new OrderMenu(orderId, menuId))
-               .collect(Collectors.toList());
+    private List<OrderMenu> getOrderMenuList(Long orderId, List<Long> menuIds, List<Integer> amountList){
+        List<OrderMenu> orderMenus = new ArrayList<>();
+
+        for(int i=0; i<menuIds.size(); i++){
+            orderMenus.add(new OrderMenu(orderId, menuIds.get(i), amountList.get(i)));
+        }
+
+        return orderMenus;
     }
 
     private List<Long> getMenuIds(List<MenuDto> menuList) {
@@ -83,6 +92,7 @@ public class OrderService {
 
     private OrderDto orderEntityToDto(Order order){
         return new OrderDto(
+                order.getQuantity(),
                 order.getPayments(),
                 order.getUsePointAmount(),
                 order.isComplete(),
@@ -94,14 +104,15 @@ public class OrderService {
         return new Order(
                 orderDto.getCustomerId(),
                 orderDto.getPayments(),
+                orderDto.getQuantity(),
                 orderDto.getUsePointAmount(),
                 orderDto.isComplete(),
                 orderDto.getOrderDate()
         );
     }
 
-    private OrderMenu createOrderMenu(Long orderId, Long menuId){
-        return new OrderMenu(orderId, menuId);
+    private OrderMenu createOrderMenu(Long orderId, Long menuId, int amount){
+        return new OrderMenu(orderId, menuId, amount);
     }
 
 }
