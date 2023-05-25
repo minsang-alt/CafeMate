@@ -66,8 +66,9 @@
 <!-- Additional script to handle dynamic menu items and sold out items -->
 <script th:inline="javascript" >
   let customerArray =[];
+  let menuItems = [];
 
-$(document).ready(function (){
+  $(document).ready(function (){
 
 
   function customerLoad(){
@@ -125,6 +126,10 @@ $(document).ready(function (){
   function  getMenuItem(menu){
     //판매중인 메뉴만 보이도록 함
     if(menu.on_sale){
+      menuItems.push({
+        value:menu.id,
+        name:menu.product_name
+      });
       let item = `
                         <div class="col-md-4">
                             <div class="card mb-4">
@@ -144,20 +149,6 @@ $(document).ready(function (){
   }
 
 
-  function applyPoints() {
-    let checkbox = document.getElementById("use-points");
-    let totalPrice = document.getElementById("total_amount").value;
-    let points = document.getElementById("points").value;
-    let result = parseInt(totalPrice);
-    if (checkbox.checked) {
-      if(points=='')return;
-      result -= parseInt(points);
-    }else{
-      if(points=='')return;
-      result +=parseInt(points);
-    }
-    document.getElementById("total_amount").value=result;
-  }
 
 
 
@@ -210,6 +201,88 @@ function updateTotal(amount) {
   let currentTotal = parseInt($("#total_amount").val());
   $("#total_amount").val(currentTotal + amount);
 }
+
+//주문추가 버튼 클릭시
+  $("#add_order").click(function() {
+    let orderData = {};
+    let menuData = [];
+    let sumQty = 0;
+    console.log(menuItems);
+    //메뉴와 수량 집어넣기
+    $(".qty-input").each(function() {
+      let menuValue = $(this).attr("id").replace("-qty", "");
+
+
+
+      let menuName = menuItems.find(item => item.value == menuValue).name;
+      let quantity = $(this).val();
+
+      if (quantity > 0) {
+        sumQty+=quantity;
+        menuData.push({
+          menu: menuName,
+          qty: quantity
+        });
+      }
+    });
+    console.log(menuData);
+    orderData.quantity = sumQty;
+    orderData.menuData=menuData;
+    //포인트 사용,아이디,결제금액 푸시
+
+    orderData.customerId = $("#customer_name option:selected").text();
+    orderData.total_amount = $("#total_amount").val();
+
+    //포인트 사용 체크여부 확인하고 푸시
+    let checkbox = document.getElementById("use-points");
+    if(checkbox.checked){
+      let points = document.getElementById("points").value;
+      orderData.point = points;
+    }else{
+      orderData.point = 0;
+    }
+
+
+
+
+
+    //JSON으로 잘 변환되는 지 테스트
+    let jsonOrderData = JSON.stringify(orderData);
+
+    console.log(jsonOrderData);
+
+      $.ajax({
+          url: "/api/order",
+          method: "POST",
+          dataType: "json",
+          contentType: "application/json; charset=UTF-8",
+          data: jsonOrderData,
+          success: function(data) {
+              console.log("JSON 데이터 전송 성공");
+          },
+          error: function(error) {
+              console.log("JSON 데이터 전송 오류", error);
+          }
+      });
+
+
+  });
+
+  function applyPoints() {
+    let checkbox = document.getElementById("use-points");
+    let totalPrice = document.getElementById("total_amount").value;
+    let points = document.getElementById("points").value;
+    let result = parseInt(totalPrice);
+    if (checkbox.checked) {
+      if(points=='')return;
+      result -= parseInt(points);
+    }else{
+      if(points=='')return;
+      result +=parseInt(points);
+    }
+    document.getElementById("total_amount").value=result;
+  }
+
 
 </script>
 </body>

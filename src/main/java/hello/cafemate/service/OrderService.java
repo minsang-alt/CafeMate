@@ -83,7 +83,6 @@ public class OrderService {
 
     private OrderDto orderEntityToDto(Order order){
         return new OrderDto(
-                order.getQuantity(),
                 order.getPayments(),
                 order.getUsePointAmount(),
                 order.isComplete(),
@@ -94,7 +93,6 @@ public class OrderService {
     private Order orderDtoToEntity(OrderDto orderDto){
         return new Order(
                 orderDto.getCustomerId(),
-                orderDto.getQuantity(),
                 orderDto.getPayments(),
                 orderDto.getUsePointAmount(),
                 orderDto.isComplete(),

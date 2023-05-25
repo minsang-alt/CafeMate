@@ -4,7 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,7 +20,7 @@ public class Order {
 
     private int usePointAmount;
     private boolean isComplete;
-    private LocalDateTime orderDate;
+    private Timestamp orderDate;
 
     private List<OrderMenu> orderMenuList=
             Collections.synchronizedList(new ArrayList<>());
@@ -29,7 +29,7 @@ public class Order {
     }
 
     public Order(Long id, Long customerId, int quantity, int payments,
-                 int usePointAmount, boolean isComplete, LocalDateTime orderDate) {
+                 int usePointAmount, boolean isComplete, Timestamp orderDate) {
         this.id = id;
         this.customerId = customerId;
         this.quantity = quantity;
@@ -39,8 +39,8 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public Order(Long customerId, int quantity, int payments,
-                 int usePointAmount, boolean isComplete, LocalDateTime orderDate) {
+    public Order(Long customerId, int payments,
+                 int usePointAmount, boolean isComplete, Timestamp orderDate) {
         this.customerId = customerId;
         this.quantity = quantity;
         this.payments = payments;
