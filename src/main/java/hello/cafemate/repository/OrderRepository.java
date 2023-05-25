@@ -156,7 +156,7 @@ public class OrderRepository extends AbstractRepository<Order, OrderUpdateDto> {
                 rs.getInt("payments"),
                 rs.getInt("use_point_amount"),
                 rs.getInt("is_complete") == 1 ? true : false,
-                rs.getTimestamp("orders_date").toLocalDateTime()
+                rs.getTimestamp("orders_date")
         );
     }
 
