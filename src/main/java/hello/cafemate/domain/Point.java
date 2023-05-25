@@ -4,7 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Getter
 @EqualsAndHashCode
@@ -13,18 +13,18 @@ public class Point {
     private Long id;
     private Long customerId;
     private int amount;
-    private LocalDateTime savedDate;
+    private Timestamp savedDate;
 
     public Point() {}
 
-    public Point(Long id, Long customerId, int amount, LocalDateTime savedDate) {
+    public Point(Long id, Long customerId, int amount, Timestamp savedDate) {
         this.id = id;
         this.customerId = customerId;
         this.amount = amount;
         this.savedDate = savedDate;
     }
 
-    public Point(Long customerId, int amount, LocalDateTime savedDate) {
+    public Point(Long customerId, int amount, Timestamp savedDate) {
         this.customerId = customerId;
         this.amount = amount;
         this.savedDate = savedDate;
