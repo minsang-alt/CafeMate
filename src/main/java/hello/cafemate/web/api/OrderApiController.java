@@ -1,6 +1,7 @@
 package hello.cafemate.web.api;
 
 import hello.cafemate.dto.simple_dto.OrderDto;
+import hello.cafemate.service.OrderService;
 import hello.cafemate.web.dto.menu.MenuDto;
 import hello.cafemate.web.dto.order.MenuItem;
 import hello.cafemate.web.dto.order.OrderRequestDto;
@@ -18,6 +19,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RestController
 public class OrderApiController {
+    private OrderService orderService;
 
     //주문등록
     @PostMapping("/api/order")
@@ -50,7 +52,8 @@ public class OrderApiController {
             orderMenuInfo.put(menuDto,qty);
         }
 
-
+        //주문생성 서비스 실행
+        orderService.createOrder(customerId,orderDto,orderMenuInfo);
 
         return new ResponseEntity<>(new HashMap<>(), HttpStatus.OK);
 
