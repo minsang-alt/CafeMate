@@ -21,8 +21,8 @@ public class OrderMenuRepository extends AbstractRepository<OrderMenu, OrderMenu
 
     @Override
     public OrderMenu save(OrderMenu target) {
-        String sql="insert into orders_menu(orders_id, menu_id) " +
-                "values (:orderId, :menuId)";
+        String sql="insert into orders_menu(orders_id, menu_id, amount) " +
+                "values (:orderId, :menuId, :amount)";
 
         BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(target);
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
@@ -36,7 +36,7 @@ public class OrderMenuRepository extends AbstractRepository<OrderMenu, OrderMenu
 
     @Override
     public Optional<OrderMenu> findById(Long id) {
-        String sql="select id, orers_id, menu_id from orders_menu" +
+        String sql="select id, orers_id, menu_id, amount from orders_menu" +
                 " where id=:id";
 
         try{
@@ -49,7 +49,7 @@ public class OrderMenuRepository extends AbstractRepository<OrderMenu, OrderMenu
     }
 
     public List<OrderMenu> findAll(Long orderId){
-        String sql="select id, orders_id, menu_id from orders_menu" +
+        String sql="select id, orders_id, menu_id, amount from orders_menu" +
                 " where orders_id=:orderId";
 
         MapSqlParameterSource param = new MapSqlParameterSource().addValue("orderId", orderId);
@@ -58,7 +58,19 @@ public class OrderMenuRepository extends AbstractRepository<OrderMenu, OrderMenu
 
     @Override
     public void update(Long id, OrderMenu updateParam) {
+        String sql="update orders_menu set ";
 
+        Integer amount = updateParam.getAmount();
+        MapSqlParameterSource param = new MapSqlParameterSource();
+
+        if(amount==null) return;
+
+        param.addValue("amount", amount);
+
+        sql+="amount=:amount where id=:id";
+        param.addValue("id", id);
+
+        template.update(sql, param);
     }
 
     @Override
@@ -74,7 +86,8 @@ public class OrderMenuRepository extends AbstractRepository<OrderMenu, OrderMenu
         return (rs, rowNum) ->new OrderMenu(
                 rs.getLong("id"),
                 rs.getLong("orders_id"),
-                rs.getLong("menu_id")
+                rs.getLong("menu_id"),
+                rs.getInt("amount")
         );
     }
 }
