@@ -56,6 +56,7 @@ public class CustomerService {
                 dto.getName(), dto.getPhoneNumber(), dto.getAlias(), dto.getSavedPoint());
     }
 
+    //비밀번호 안넘기기?
     private CustomerDto entityToDto(Customer customer){
         return new CustomerDto(customer.getId(),customer.getCustomerId(), customer.getEMail(), customer.getPassword(),
                 customer.getName(), customer.getPhoneNumber(), customer.getAlias(), customer.getSavedPoint());

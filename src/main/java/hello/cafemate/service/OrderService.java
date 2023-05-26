@@ -103,8 +103,8 @@ public class OrderService {
     private Order orderDtoToEntity(OrderDto orderDto){
         return new Order(
                 orderDto.getCustomerId(),
-                orderDto.getQuantity(),
                 orderDto.getPayments(),
+                orderDto.getQuantity(),
                 orderDto.getUsePointAmount(),
                 orderDto.isComplete(),
                 orderDto.getOrderDate()

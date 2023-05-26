@@ -5,29 +5,33 @@ import hello.cafemate.domain.OrderMenu;
 import lombok.Getter;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 public class OrderDto {
     private Long customerId;
-    private int quantity;
-    private int payments;
 
-    private int usePointAmount;
+    private Integer payments;
+    private Integer quantity;
+    private Integer usePointAmount;
     private boolean isComplete;
     private Timestamp orderDate;
     private List<OrderMenu> orderMenuList = new ArrayList<>();
 
-    public OrderDto(int quantity, int payments,
-                    int usePointAmount, boolean isComplete, Timestamp orderDate) {
+
+    public OrderDto( int quantity,int payments,
+                    int usePointAmount, boolean isComplete,Timestamp orderDate) {
+
         this.quantity = quantity;
         this.payments = payments;
         this.usePointAmount = usePointAmount;
         this.isComplete = isComplete;
+        if(orderDate==null)
+            orderDate = new Timestamp(System.currentTimeMillis());
         this.orderDate = orderDate;
     }
+
 
     public OrderDto(Order order){
         this.customerId=order.getCustomerId();
@@ -38,6 +42,7 @@ public class OrderDto {
         this.orderDate=order.getOrderDate();
         setOrderMenuList(order.getOrderMenuList());
     }
+
 
     public void setCustomerId(Long customerId) {
         this.customerId = customerId;

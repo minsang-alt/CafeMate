@@ -39,7 +39,7 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public Order(Long customerId, int quantity, int payments,
+    public Order(Long customerId, int payments,int quantity,
                  int usePointAmount, boolean isComplete, Timestamp orderDate) {
         this.customerId = customerId;
         this.quantity = quantity;
