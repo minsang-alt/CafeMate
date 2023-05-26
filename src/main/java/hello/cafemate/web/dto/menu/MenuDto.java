@@ -1,6 +1,7 @@
 package hello.cafemate.web.dto.menu;
 
 import hello.cafemate.domain.Category;
+import hello.cafemate.domain.Menu;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -34,6 +35,15 @@ private Timestamp registrationDate;
         this.price = price;
         this.on_sale = on_sale;
         this.registrationDate = localDateTime;
+    }
+
+    public MenuDto(Menu menu){
+        this.id=menu.getId();
+        this.product_name=menu.getName();
+        this.category=menu.getCategory();
+        this.price=menu.getPrice();
+        this.on_sale=menu.isOnSale();
+        this.registrationDate=menu.getRegistrationDate();
     }
 
 public void setCategory(String category)
