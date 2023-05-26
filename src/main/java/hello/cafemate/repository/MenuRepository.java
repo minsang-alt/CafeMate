@@ -63,7 +63,7 @@ public class MenuRepository extends AbstractRepository<Menu, MenuUpdateDto> {
 
     public Optional<Menu> findByName(String name){
         String sql="select id, name, category, price, on_sale, registration_date" +
-                " from menu";
+                " from menu where name=:name";
 
         try{
             Map<String, Object> param = Map.of("name", name);
