@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
+
 
 @Data
 public class MenuDto {
@@ -37,13 +37,18 @@ private Timestamp registrationDate;
         this.registrationDate = localDateTime;
     }
 
-    public MenuDto(Menu menu){
-        this.id=menu.getId();
-        this.product_name=menu.getName();
-        this.category=menu.getCategory();
-        this.price=menu.getPrice();
-        this.on_sale=menu.isOnSale();
-        this.registrationDate=menu.getRegistrationDate();
+
+    public MenuDto(Menu menu) {
+        this.id = menu.getId();
+        this.product_name = menu.getName();
+        this.category = menu.getCategory();
+        this.price = menu.getPrice();
+        this.on_sale = menu.isOnSale();
+        this.registrationDate = menu.getRegistrationDate();
+    }
+
+    public MenuDto(String product_name){
+        this.product_name = product_name;
     }
 
 public void setCategory(String category)
