@@ -1,8 +1,12 @@
 package hello.cafemate.service;
 
+import hello.cafemate.dao.OrderCustomerDao;
+import hello.cafemate.dao.OrderResponseDao;
 import hello.cafemate.domain.Customer;
 import hello.cafemate.domain.Order;
 import hello.cafemate.domain.OrderMenu;
+import hello.cafemate.repository.OrderMenuRepository;
+import hello.cafemate.web.dto.order.OrderResponseDto;
 import hello.cafemate.web.dto.user.CustomerDto;
 import hello.cafemate.dto.simple_dto.OrderDto;
 import hello.cafemate.repository.CustomerRepository;
@@ -13,16 +17,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.sql.Timestamp;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class OrderService {
+
+    private final OrderMenuRepository orderMenuRepository;
     private final OrderRepository orderRepository;
     private final CustomerRepository customerRepository;
     private final MenuRepository menuRepository;
@@ -72,6 +76,63 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
+    public List<OrderResponseDto> getAllOrders(){
+        //모든 주문 데이터 조회
+        List<Order> orders = orderRepository.findAll();
+
+        //각 주문별 OrderCustomerDto(고객ID, 별명) 조회
+        List<OrderCustomerDao> customerDaoList = new ArrayList<>();
+
+        for (Order order : orders) {
+            OrderCustomerDao customerDao = customerRepository.findOrderCustomerDaoById(order.getCustomerId());
+            customerDaoList.add(customerDao);
+        }
+
+        //각 주문 포함 메뉴 이름 목록 조회
+        Map<Long, List<String>> orderMenuNameMap = new HashMap<>();
+
+        for (Order order : orders) {
+            List<Long> menuIds = orderMenuRepository.findAllMenuIds(order.getId());
+            List<String> menuNameList = new ArrayList<>();
+
+            for (Long menuId : menuIds) {
+                String menuName = menuRepository.getMenuName(menuId);
+                menuNameList.add(menuName);
+            }
+
+            orderMenuNameMap.put(order.getId(), menuNameList);
+        }
+
+        // 각 주문별 OrderResponseDao 조회
+        List<OrderResponseDao> orderResponseDaoList = new ArrayList<>();
+        for (Order order : orders) {
+            OrderResponseDao orderResponseDao = orderRepository.findOrderResponseDaoById(order.getId());
+            orderResponseDaoList.add(orderResponseDao);
+        }
+
+        // orderResponseDto 목록 생성
+        List<OrderResponseDto> orderResponseDtoList = new ArrayList<>();
+
+        for(int i=0; i<orders.size(); i++){
+            Long orderId = orders.get(i).getId();
+
+            OrderCustomerDao customerDao = customerDaoList.get(i);
+            Long customerId = customerDao.getCustomerId();
+            String alias = customerDao.getAlias();
+
+            List<String> menuNames = orderMenuNameMap.get(orderId);
+
+            OrderResponseDao orderResponseDao = orderResponseDaoList.get(i);
+            Integer amount = orderResponseDao.getAmount();
+            Timestamp orderDate = orderResponseDao.getOrderDate();
+
+            OrderResponseDto orderResponseDto = new OrderResponseDto(orderId, customerId, alias, menuNames, amount, orderDate);
+            orderResponseDtoList.add(orderResponseDto);
+        }
+
+        return orderResponseDtoList;
+    }
+
     private List<OrderMenu> getOrderMenuList(Long orderId, List<Long> menuIds, List<Integer> amountList){
         List<OrderMenu> orderMenus = new ArrayList<>();
 
@@ -89,6 +150,7 @@ public class OrderService {
                         .getId())
                 .collect(Collectors.toList());
     }
+
 
     private OrderDto orderEntityToDto(Order order){
         return new OrderDto(

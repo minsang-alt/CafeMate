@@ -1,6 +1,7 @@
 package hello.cafemate.repository;
 
-import hello.cafemate.domain.Menu;
+
+import hello.cafemate.dao.OrderResponseDao;
 import hello.cafemate.domain.Order;
 import hello.cafemate.domain.OrderMenu;
 import hello.cafemate.dto.update_dto.OrderUpdateDto;
@@ -44,7 +45,7 @@ public class OrderRepository extends AbstractRepository<Order, OrderUpdateDto> {
         return target;
     }
 
-    public Order saveMenus(Order order, List<OrderMenu> menuList){
+    public Order saveMenus(Order order, List<OrderMenu> menuList) {
         for (OrderMenu orderMenu : menuList) {
             orderMenuRepository.save(orderMenu);
         }
@@ -76,8 +77,15 @@ public class OrderRepository extends AbstractRepository<Order, OrderUpdateDto> {
 
 
 
-    public List<Order> findOrdersByCustomerId(Long customerId){
-        String sql="select id, customer_id, quantity, payments, use_point_amount, is_complete, orders_date" +
+
+    public List<Order> findAll(){
+        String sql="select * from orders";
+
+        return template.query(sql, orderRowMapper());
+    }
+
+    public List<Order> findOrdersByCustomerId(Long customerId) {
+        String sql = "select id, customer_id, quantity, payments, use_point_amount, is_complete, orders_date" +
                 " from orders where customer_id=:customerId";
 
         MapSqlParameterSource param =
@@ -90,6 +98,22 @@ public class OrderRepository extends AbstractRepository<Order, OrderUpdateDto> {
         }
 
         return orders;
+    }
+
+    public OrderResponseDao findOrderResponseDaoById(Long id) {
+        String sql = "select id, amount, orders_date" +
+                " from orders where id=:id";
+
+        MapSqlParameterSource param =
+                new MapSqlParameterSource().addValue("id", id);
+
+        return template.queryForObject(sql, param, (rs, rowNum) ->
+                new OrderResponseDao(
+                        rs.getLong("id"),
+                        rs.getInt("amount"),
+                        rs.getTimestamp("orders_date")
+                )
+        );
     }
 
     @Override
@@ -130,7 +154,7 @@ public class OrderRepository extends AbstractRepository<Order, OrderUpdateDto> {
             param.addValue("orderDate", orderDate);
         }
 
-        if(paramList.size()==0) return;
+        if (paramList.size() == 0) return;
 
         sql = getUpdateQuery(sql, paramList);
         param.addValue("id", id);
@@ -184,7 +208,7 @@ public class OrderRepository extends AbstractRepository<Order, OrderUpdateDto> {
             }
 
             if (paramName.equals("isComplete")) {
-                return ((Boolean)value)?1:0;
+                return ((Boolean) value) ? 1 : 0;
             }
 
             return value;
