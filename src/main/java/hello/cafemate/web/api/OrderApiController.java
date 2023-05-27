@@ -1,5 +1,6 @@
 package hello.cafemate.web.api;
 
+import hello.cafemate.domain.OrderMenu;
 import hello.cafemate.dto.simple_dto.OrderDto;
 import hello.cafemate.service.OrderService;
 import hello.cafemate.web.dto.menu.MenuDto;
@@ -8,6 +9,7 @@ import hello.cafemate.web.dto.order.OrderRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +21,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RestController
 public class OrderApiController {
-    private OrderService orderService;
+    private final OrderService orderService;
 
     //주문등록
     @PostMapping("/api/order")
@@ -60,5 +62,9 @@ public class OrderApiController {
 
     }
 
-
+    //주문리스트 로드하기
+    @GetMapping("/api/orders")
+    public ResponseEntity<?> orderList(){
+        return null;
+    }
 }

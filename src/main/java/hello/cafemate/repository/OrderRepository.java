@@ -1,5 +1,6 @@
 package hello.cafemate.repository;
 
+import hello.cafemate.domain.Menu;
 import hello.cafemate.domain.Order;
 import hello.cafemate.domain.OrderMenu;
 import hello.cafemate.dto.update_dto.OrderUpdateDto;
@@ -72,6 +73,8 @@ public class OrderRepository extends AbstractRepository<Order, OrderUpdateDto> {
             return Optional.empty();
         }
     }
+
+
 
     public List<Order> findOrdersByCustomerId(Long customerId){
         String sql="select id, customer_id, quantity, payments, use_point_amount, is_complete, orders_date" +

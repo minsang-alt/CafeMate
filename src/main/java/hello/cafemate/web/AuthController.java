@@ -45,8 +45,8 @@ public class AuthController {
 
         //log.info(signupDto.toString());
         //user객체에 userDto의 데이터들을 주입해야하고 서비스에 이 user오브젝트를 전달한다음 서비스는 각종일을 처리한다.
+        Map<String,String> errorMap = new HashMap<>();
         if(bindingResult.hasErrors()){
-            Map<String,String> errorMap = new HashMap<>();
             for(FieldError error : bindingResult.getFieldErrors()){
                 errorMap.put(error.getField(),error.getDefaultMessage());
                 System.out.println(error.getDefaultMessage());
@@ -72,8 +72,8 @@ public class AuthController {
     }
     @PostMapping("/auth/admin/signup")
     public String signupMember(@Valid SignupMemberDto signupMemberDto, BindingResult bindingResult){
+        Map<String,String> errorMap = new HashMap<>();
         if(bindingResult.hasErrors()){
-            Map<String,String> errorMap = new HashMap<>();
             for(FieldError error : bindingResult.getFieldErrors()){
                 errorMap.put(error.getField(),error.getDefaultMessage());
                 System.out.println(error.getDefaultMessage());
@@ -87,7 +87,7 @@ public class AuthController {
 
             memberService.join(memberDto);
 
-            return "auth/signin";
+            return "/";
         }
     }
 }

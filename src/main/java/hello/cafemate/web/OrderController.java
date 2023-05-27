@@ -14,4 +14,9 @@ public class OrderController {
         return "order/orderRegisterForm";
     }
 
+    //전체 주문 목록
+    @GetMapping("/admin/orders")
+    public String showOrdersShow(){
+        return "order/orderList";
+    }
 }

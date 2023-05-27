@@ -21,7 +21,7 @@ function menuLoad(){
 
     }).fail(error=>{
         console.log("오류",error);
-    })
+    });
 }
 
 menuLoad();
