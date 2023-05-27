@@ -7,12 +7,12 @@ import java.sql.Timestamp;
 @Getter
 public class OrderResponseDao {
     private Long orderId;
-    private Integer amount;
+    private Integer quantity;
     private Timestamp orderDate;
 
-    public OrderResponseDao(Long orderId, Integer amount, Timestamp orderDate) {
+    public OrderResponseDao(Long orderId, Integer quantity, Timestamp orderDate) {
         this.orderId = orderId;
-        this.amount = amount;
+        this.quantity = quantity;
         this.orderDate = orderDate;
     }
 }

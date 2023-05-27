@@ -101,7 +101,9 @@ public class OrderRepository extends AbstractRepository<Order, OrderUpdateDto> {
     }
 
     public OrderResponseDao findOrderResponseDaoById(Long id) {
-        String sql = "select id, quantity, order_date" +
+
+        String sql = "select id, quantity, orders_date" +
+
                 " from orders where id=:id";
 
         MapSqlParameterSource param =
@@ -111,7 +113,8 @@ public class OrderRepository extends AbstractRepository<Order, OrderUpdateDto> {
                 new OrderResponseDao(
                         rs.getLong("id"),
                         rs.getInt("quantity"),
-                        rs.getTimestamp("order_date")
+                        rs.getTimestamp("orders_date")
+
                 )
         );
     }
