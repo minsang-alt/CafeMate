@@ -11,16 +11,16 @@ public class OrderResponseDto {
     private Long customerId;
     private String alias;
     private List<String> menuName;
-    private Integer amount;
+    private Integer quantity;
     private Timestamp ordersDate;
 
     public OrderResponseDto(Long orderId, Long customerId, String alias,
-                            List<String> menuName, Integer amount, Timestamp ordersDate) {
+                            List<String> menuName, Integer quantity, Timestamp ordersDate) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.alias = alias;
         this.menuName = menuName;
-        this.amount = amount;
+        this.quantity = quantity;
         this.ordersDate = ordersDate;
     }
 }

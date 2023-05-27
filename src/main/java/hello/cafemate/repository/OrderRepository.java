@@ -32,7 +32,7 @@ public class OrderRepository extends AbstractRepository<Order, OrderUpdateDto> {
 
     @Override
     public Order save(Order target) {
-        String sql = "insert into orders(customer_id, quantity, payments, use_point_amount, is_complete, orders_date)" +
+        String sql = "insert into orders(customer_id, quantity, payments, use_point_amount, is_complete, order_date)" +
                 " values(:customerId, :quantity, :payments, :usePointAmount, :isComplete, :orderDate)";
 
         ConvertSqlParameterSource param = new ConvertSqlParameterSource(target);
@@ -57,7 +57,7 @@ public class OrderRepository extends AbstractRepository<Order, OrderUpdateDto> {
 
     @Override
     public Optional<Order> findById(Long id) {
-        String sql = "select id, customer_id, quantity, payments, use_point_amount, is_complete, orders_date" +
+        String sql = "select id, customer_id, quantity, payments, use_point_amount, is_complete, order_date" +
                 " from orders where id=:id";
 
         try {
@@ -85,7 +85,7 @@ public class OrderRepository extends AbstractRepository<Order, OrderUpdateDto> {
     }
 
     public List<Order> findOrdersByCustomerId(Long customerId) {
-        String sql = "select id, customer_id, quantity, payments, use_point_amount, is_complete, orders_date" +
+        String sql = "select id, customer_id, quantity, payments, use_point_amount, is_complete, order_date" +
                 " from orders where customer_id=:customerId";
 
         MapSqlParameterSource param =
@@ -101,7 +101,7 @@ public class OrderRepository extends AbstractRepository<Order, OrderUpdateDto> {
     }
 
     public OrderResponseDao findOrderResponseDaoById(Long id) {
-        String sql = "select id, amount, orders_date" +
+        String sql = "select id, quantity, order_date" +
                 " from orders where id=:id";
 
         MapSqlParameterSource param =
@@ -110,8 +110,8 @@ public class OrderRepository extends AbstractRepository<Order, OrderUpdateDto> {
         return template.queryForObject(sql, param, (rs, rowNum) ->
                 new OrderResponseDao(
                         rs.getLong("id"),
-                        rs.getInt("amount"),
-                        rs.getTimestamp("orders_date")
+                        rs.getInt("quantity"),
+                        rs.getTimestamp("order_date")
                 )
         );
     }
@@ -124,7 +124,7 @@ public class OrderRepository extends AbstractRepository<Order, OrderUpdateDto> {
         Integer payments = updateParam.getPayments();
         Integer usePointAmount = updateParam.getUsePointAmount();
         Boolean isComplete = updateParam.getIsComplete();
-        LocalDateTime orderDate = updateParam.getOrderDate();
+        Timestamp orderDate = updateParam.getOrderDate();
 
         List<String> paramList = new ArrayList<>();
         MapSqlParameterSource param = new MapSqlParameterSource();
@@ -183,7 +183,7 @@ public class OrderRepository extends AbstractRepository<Order, OrderUpdateDto> {
                 rs.getInt("payments"),
                 rs.getInt("use_point_amount"),
                 rs.getInt("is_complete") == 1 ? true : false,
-                rs.getTimestamp("orders_date")
+                rs.getTimestamp("order_date")
         );
     }
 

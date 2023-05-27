@@ -5,6 +5,8 @@ import hello.cafemate.dao.OrderResponseDao;
 import hello.cafemate.domain.Customer;
 import hello.cafemate.domain.Order;
 import hello.cafemate.domain.OrderMenu;
+import hello.cafemate.dto.update_dto.MenuUpdateDto;
+import hello.cafemate.dto.update_dto.OrderUpdateDto;
 import hello.cafemate.repository.OrderMenuRepository;
 import hello.cafemate.web.dto.order.OrderResponseDto;
 import hello.cafemate.web.dto.user.CustomerDto;
@@ -131,6 +133,27 @@ public class OrderService {
         }
 
         return orderResponseDtoList;
+    }
+
+    //나중에 수정부탁합니다 , 주문 완료로 바꾸는 함수
+    @Transactional(readOnly = false)
+    public void updateCompleteOrder(Long orderId){
+       Optional<Order> findOrder = orderRepository.findById(orderId);
+
+        if(findOrder.isEmpty()){
+            throw new IllegalStateException("주문이 존재하지 않습니다");
+        }
+
+
+        OrderUpdateDto orderUpdateDto = new OrderUpdateDto();
+        orderUpdateDto.setIsComplete(true);
+        orderUpdateDto.setOrderDate(findOrder.get().getOrderDate());
+        orderUpdateDto.setPayments(findOrder.get().getPayments());
+        orderUpdateDto.setQuantity(findOrder.get().getQuantity());
+        orderUpdateDto.setUsePointAmount(findOrder.get().getUsePointAmount());
+
+        orderRepository.update(orderId,orderUpdateDto);
+
     }
 
     private List<OrderMenu> getOrderMenuList(Long orderId, List<Long> menuIds, List<Integer> amountList){

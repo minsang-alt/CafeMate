@@ -57,8 +57,8 @@ public class OrderMenuRepository extends AbstractRepository<OrderMenu, OrderMenu
     }
 
     public List<Long> findAllMenuIds(Long orderId){
-        String sql="select menu_id from order_menu" +
-                " where orders_id=orderId";
+        String sql="select menu_id from orders_menu" +
+                " where orders_id=:orderId";
 
         MapSqlParameterSource param = new MapSqlParameterSource().addValue("orderId", orderId);
         return template.query(sql, param , (rs, rowNum)-> rs.getLong("menu_id"));

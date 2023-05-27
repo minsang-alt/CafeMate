@@ -75,7 +75,7 @@ public class MenuRepository extends AbstractRepository<Menu, MenuUpdateDto> {
     }
 
     public String getMenuName(Long id){
-        String sql="select name form menu where id=:id";
+        String sql="select name from menu where id=:id";
 
         MapSqlParameterSource param = new MapSqlParameterSource("id", id);
         return template.queryForObject(sql, param, (rs, rowNum)->rs.getString("name"));

@@ -3,16 +3,15 @@ package hello.cafemate.web.api;
 import hello.cafemate.domain.OrderMenu;
 import hello.cafemate.dto.simple_dto.OrderDto;
 import hello.cafemate.service.OrderService;
+import hello.cafemate.web.dto.RespDto;
 import hello.cafemate.web.dto.menu.MenuDto;
 import hello.cafemate.web.dto.order.MenuItem;
 import hello.cafemate.web.dto.order.OrderRequestDto;
+import hello.cafemate.web.dto.order.OrderResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -62,9 +61,26 @@ public class OrderApiController {
 
     }
 
+    //주문완료로 수정
+    @DeleteMapping ("/api/order/{id}")
+    public ResponseEntity<?>orderDelete(@PathVariable long id){
+
+
+        orderService.updateCompleteOrder(id);
+
+
+        return new ResponseEntity<>(new RespDto<>(1,"주문삭제완료",null),HttpStatus.OK);
+    }
+
+
+
+
     //주문리스트 로드하기
     @GetMapping("/api/orders")
     public ResponseEntity<?> orderList(){
-        return null;
+
+       List<OrderResponseDto> orders =  orderService.getAllOrders();
+
+        return new ResponseEntity<>(new RespDto<>(1,"성공",orders),HttpStatus.OK);
     }
 }
