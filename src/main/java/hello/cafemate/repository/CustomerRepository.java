@@ -1,5 +1,6 @@
 package hello.cafemate.repository;
 
+import hello.cafemate.dao.OrderCustomerDao;
 import hello.cafemate.domain.Customer;
 import hello.cafemate.dto.update_dto.CustomerUpdateDto;
 import lombok.extern.slf4j.Slf4j;
@@ -53,28 +54,39 @@ public class CustomerRepository extends AbstractRepository<Customer, CustomerUpd
         }
     }
 
-    public Optional<Customer> findByCustomerId(String customerId){
-        String sql="select id, customer_id, e_mail, password, name, phone_number, alias, saved_point" +
+    public Optional<Customer> findByCustomerId(String customerId) {
+        String sql = "select id, customer_id, e_mail, password, name, phone_number, alias, saved_point" +
                 " from customer where customer_id=:customerId";
 
-        try{
-            Map<String, Object> param=Map.of("customerId", customerId);
+        try {
+            Map<String, Object> param = Map.of("customerId", customerId);
             Customer customer = template.queryForObject(sql, param, customerRowMapper());
             return Optional.of(customer);
-        }catch(EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
     }
 
-    public List<Customer> findAll(){
+    public List<Customer> findAll() {
         String sql = "select id, customer_id, e_mail, password, name, phone_number, alias, saved_point from customer";
 
         return template.query(sql, customerRowMapper());
     }
 
+    public OrderCustomerDao findOrderCustomerDaoById(Long id) {
+        String sql = "select id, alias from customer where id=:id";
+
+        MapSqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+        return template.queryForObject(sql, param,
+                (rs, rowNum) -> new OrderCustomerDao(
+                        rs.getLong("id"),
+                        rs.getString("alias")
+                ));
+    }
+
     @Override
     public void update(Long id, CustomerUpdateDto updateParam) {
-        String sql="update customer set ";
+        String sql = "update customer set ";
 
         String customerId = updateParam.getCustomerId();
         String name = updateParam.getName();
@@ -87,42 +99,42 @@ public class CustomerRepository extends AbstractRepository<Customer, CustomerUpd
         List<String> paramList = new ArrayList<>();
         MapSqlParameterSource param = new MapSqlParameterSource();
 
-        if(StringUtils.hasText(customerId)){
+        if (StringUtils.hasText(customerId)) {
             paramList.add("customer_id=:customerId");
             param.addValue("customerId", customerId);
         }
 
-        if(StringUtils.hasText(name)){
+        if (StringUtils.hasText(name)) {
             paramList.add("name=:name");
             param.addValue("name", name);
         }
 
-        if(StringUtils.hasText(password)){
+        if (StringUtils.hasText(password)) {
             paramList.add("password=:password");
             param.addValue("password", password);
         }
 
-        if(StringUtils.hasText(alias)){
+        if (StringUtils.hasText(alias)) {
             paramList.add("alias=:alias");
             param.addValue("alias", alias);
         }
 
-        if(StringUtils.hasText(phoneNumber)){
+        if (StringUtils.hasText(phoneNumber)) {
             paramList.add("phone_number=:phoneNumber");
             param.addValue("phoneNumber", phoneNumber);
         }
 
-        if(StringUtils.hasText(eMail)){
+        if (StringUtils.hasText(eMail)) {
             paramList.add("e_mail=:eMail");
             param.addValue("eMail", eMail);
         }
 
-        if(savedPoint!=0){
+        if (savedPoint != 0) {
             paramList.add("saved_point=:savedPoint");
             param.addValue("savedPoint", savedPoint);
         }
 
-        sql=getUpdateQuery(sql, paramList);
+        sql = getUpdateQuery(sql, paramList);
         param.addValue("id", id);
 
         template.update(sql, param);
