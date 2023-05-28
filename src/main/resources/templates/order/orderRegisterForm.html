@@ -218,7 +218,7 @@ function updateTotal(amount) {
       let quantity = $(this).val();
 
       if (quantity > 0) {
-        sumQty+=quantity;
+        sumQty += parseInt(quantity);
         menuData.push({
           menu: menuName,
           qty: quantity
@@ -263,6 +263,13 @@ function updateTotal(amount) {
           error: function(error) {
               console.log("JSON 데이터 전송 오류", error);
           }
+      }).done(res=>{
+         alert("주문등록이 완료되었습니다.");
+          location.reload();
+      }).fail(error=>{
+          alert("주문 등록 실패");
+        location.reload();
+
       });
 
 
@@ -282,6 +289,7 @@ function updateTotal(amount) {
     }
     document.getElementById("total_amount").value=result;
   }
+
 
 
 </script>

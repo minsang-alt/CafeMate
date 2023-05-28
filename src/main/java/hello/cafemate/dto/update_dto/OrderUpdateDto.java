@@ -3,7 +3,7 @@ package hello.cafemate.dto.update_dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -13,6 +13,6 @@ public class OrderUpdateDto {
 
     private Integer usePointAmount;
     private Boolean isComplete;
-    private LocalDateTime orderDate;
+    private Timestamp orderDate;
     public OrderUpdateDto(){}
 }
