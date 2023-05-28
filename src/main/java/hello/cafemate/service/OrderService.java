@@ -125,7 +125,7 @@ public class OrderService {
             List<String> menuNames = orderMenuNameMap.get(orderId);
 
             OrderResponseDao orderResponseDao = orderResponseDaoList.get(i);
-            Integer amount = orderResponseDao.getAmount();
+            Integer amount = orderResponseDao.getQuantity();
             Timestamp orderDate = orderResponseDao.getOrderDate();
 
             OrderResponseDto orderResponseDto = new OrderResponseDto(orderId, customerId, alias, menuNames, amount, orderDate);
