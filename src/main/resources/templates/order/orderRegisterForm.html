@@ -93,7 +93,15 @@
   customerLoad();
 
   function getCustomerItem(customer){
-    let item = `<option class="customerID" value="${customer.id}">${customer.customerId}</option>`;
+    let status = customer.status;
+
+    let item = `<option class="customerID" value="${customer.id}">${customer.customerId}`
+
+    if(!status){
+      item+="(탈퇴한 회원)";
+    }
+
+    item+= `</option>`;
     return item;
   }
 

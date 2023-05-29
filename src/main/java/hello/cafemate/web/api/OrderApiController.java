@@ -79,7 +79,7 @@ public class OrderApiController {
     @GetMapping("/api/orders")
     public ResponseEntity<?> orderList(){
 
-       List<OrderResponseDto> orders =  orderService.getAllOrders();
+       List<OrderResponseDto> orders =  orderService.getUnCompletedOrders();
 
         return new ResponseEntity<>(new RespDto<>(1,"성공",orders),HttpStatus.OK);
     }
