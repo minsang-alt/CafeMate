@@ -78,6 +78,63 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
+    public List<OrderResponseDto> getUnCompletedOrders(){
+        //모든 완료되지 않은 주문 데이터 조회
+        List<Order> unCompleteOrders = orderRepository.findAllUncompletedOrders();
+
+        //각 주문별 OrderCustomerDto(고객ID, 별명) 조회
+        List<OrderCustomerDao> customerDaoList = new ArrayList<>();
+
+        for (Order unCompleteOrder : unCompleteOrders) {
+            OrderCustomerDao customerDao = customerRepository.findOrderCustomerDaoById(unCompleteOrder.getCustomerId());
+            customerDaoList.add(customerDao);
+        }
+
+        //각 주문 포함 메뉴 이름 목록 조회
+        Map<Long, List<String>> orderMenuNameMap = new HashMap<>();
+
+        for (Order unCompleteOrder : unCompleteOrders) {
+            List<Long> menuIds = orderMenuRepository.findAllMenuIds(unCompleteOrder.getId());
+            List<String> menuNameList = new ArrayList<>();
+
+            for (Long menuId : menuIds) {
+                String menuName = menuRepository.getMenuName(menuId);
+                menuNameList.add(menuName);
+            }
+
+            orderMenuNameMap.put(unCompleteOrder.getId(), menuNameList);
+        }
+
+        //각 주문별 OrderResponseDao 조회
+        List<OrderResponseDao> orderResponseDaoList = new ArrayList<>();
+
+        for (Order unCompleteOrder : unCompleteOrders) {
+            OrderResponseDao orderResponseDao = orderRepository.findOrderResponseDaoById(unCompleteOrder.getId());
+            orderResponseDaoList.add(orderResponseDao);
+        }
+
+        //orderResponseDto 목록 생성
+        List<OrderResponseDto> orderResponseDtoList = new ArrayList<>();
+        for(int i=0; i<unCompleteOrders.size(); i++){
+            Long orderId = unCompleteOrders.get(i).getId();
+
+            OrderCustomerDao customerDao = customerDaoList.get(i);
+            Long customerId = customerDao.getCustomerId();
+            String alias = customerDao.getAlias();
+
+            List<String> menuNames = orderMenuNameMap.get(orderId);
+
+            OrderResponseDao orderResponseDao = orderResponseDaoList.get(i);
+            Integer amount = orderResponseDao.getQuantity();
+            Timestamp orderDate = orderResponseDao.getOrderDate();
+
+            OrderResponseDto orderResponseDto = new OrderResponseDto(orderId, customerId, alias, menuNames, amount, orderDate);
+            orderResponseDtoList.add(orderResponseDto);
+        }
+
+        return orderResponseDtoList;
+    }
+
     public List<OrderResponseDto> getAllOrders(){
         //모든 주문 데이터 조회
         List<Order> orders = orderRepository.findAll();
@@ -135,7 +192,6 @@ public class OrderService {
         return orderResponseDtoList;
     }
 
-    //나중에 수정부탁합니다 , 주문 완료로 바꾸는 함수
     @Transactional(readOnly = false)
     public void updateCompleteOrder(Long orderId){
        Optional<Order> findOrder = orderRepository.findById(orderId);
@@ -144,16 +200,10 @@ public class OrderService {
             throw new IllegalStateException("주문이 존재하지 않습니다");
         }
 
-
         OrderUpdateDto orderUpdateDto = new OrderUpdateDto();
         orderUpdateDto.setIsComplete(true);
-        orderUpdateDto.setOrderDate(findOrder.get().getOrderDate());
-        orderUpdateDto.setPayments(findOrder.get().getPayments());
-        orderUpdateDto.setQuantity(findOrder.get().getQuantity());
-        orderUpdateDto.setUsePointAmount(findOrder.get().getUsePointAmount());
 
         orderRepository.update(orderId,orderUpdateDto);
-
     }
 
     private List<OrderMenu> getOrderMenuList(Long orderId, List<Long> menuIds, List<Integer> amountList){
