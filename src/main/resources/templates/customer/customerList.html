@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org"
       xmlns:sec="http://thymeleaf.org/extras/spring-security" >
-<head th:replace="layout/common :: html-head">
+<head th:replace="~{layout/common :: html-head}"></head>
   <meta charset="UTF-8" />
   <title>고객 정보 현황</title>
   <link
@@ -28,7 +28,7 @@
   </script>
 </head>
 <body>
-<div th:replace="layout/common :: header"></div>
+<div th:insert="~{layout/common :: header}"></div>
 <div class="container">
   <h1>고객 정보 현황</h1>
   <div class="row justify-content-end">

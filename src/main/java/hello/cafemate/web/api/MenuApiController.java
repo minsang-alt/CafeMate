@@ -58,7 +58,7 @@ public class MenuApiController {
         }else{
             menuService.updateById(id,menuUpdateDto);
 
-            return new ResponseEntity<>(new RespDto<>(1,"회원수정완료",null),HttpStatus.OK);
+            return new ResponseEntity<>(new RespDto<>(1,"메뉴수정완료",null),HttpStatus.OK);
         }
     }
 

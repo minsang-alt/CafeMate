@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
-<head th:replace="layout/common :: html-head">
+<head th:replace="~{layout/common :: html-head}"></head>
     <title>Product Update</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,7 +17,7 @@
 
 </head>
 <body>
-<div th:replace="layout/common :: header"></div>
+<div th:insert="~{layout/common :: header}"></div>
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">

@@ -26,8 +26,8 @@ public class CustomerService {
         return saved.getId();
     }
 
-    public CustomerDto findOne(CustomerDto dto){
-        return entityToDto(customerRepository.findByCustomerId(dto.getCustomerId()).get());
+    public CustomerDto findOne(Long customerId){
+        return entityToDto(customerRepository.findById(customerId).get());
     }
 
     public List<CustomerDto> findAll(){
@@ -35,10 +35,12 @@ public class CustomerService {
         return customers.stream().map(this::entityToDto).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = false)
     public void updateOne(Long id, CustomerUpdateDto updateParam){
         customerRepository.update(id, updateParam);
     }
 
+    @Transactional(readOnly = false)
     public void deleteOne(Long id){
         customerRepository.deleteById(id);
     }
