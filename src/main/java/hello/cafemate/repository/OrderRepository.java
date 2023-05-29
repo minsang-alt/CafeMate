@@ -75,8 +75,11 @@ public class OrderRepository extends AbstractRepository<Order, OrderUpdateDto> {
         }
     }
 
+    public List<Order> findAllUncompletedOrders(){
+        String sql="select * from orders where is_complete=0";
 
-
+        return template.query(sql, orderRowMapper());
+    }
 
     public List<Order> findAll(){
         String sql="select * from orders";
