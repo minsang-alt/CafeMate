@@ -27,8 +27,8 @@ public class CustomerRepository extends AbstractRepository<Customer, CustomerUpd
 
     @Override
     public Customer save(Customer target) {
-        String sql = "insert into customer (customer_id, e_mail, password, name, phone_number, alias, saved_point)"
-                + "values(:customerId, :eMail, :password, :name, :phoneNumber, :alias, :savedPoint)";
+        String sql = "insert into customer (customer_id, e_mail, password, name, phone_number, alias, saved_point,status)"
+                + "values(:customerId, :eMail, :password, :name, :phoneNumber, :alias, :savedPoint,:status)";
 
         BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(target);
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
@@ -42,7 +42,7 @@ public class CustomerRepository extends AbstractRepository<Customer, CustomerUpd
 
     @Override
     public Optional<Customer> findById(Long id) {
-        String sql = "select id, customer_id, e_mail, password, name, phone_number, alias, saved_point " +
+        String sql = "select id, customer_id, e_mail, password, name, phone_number, alias, saved_point,status " +
                 "from customer where id=:id";
 
         try {
@@ -55,7 +55,7 @@ public class CustomerRepository extends AbstractRepository<Customer, CustomerUpd
     }
 
     public Optional<Customer> findByCustomerId(String customerId) {
-        String sql = "select id, customer_id, e_mail, password, name, phone_number, alias, saved_point" +
+        String sql = "select id, customer_id, e_mail, password, name, phone_number, alias, saved_point,status" +
                 " from customer where customer_id=:customerId";
 
         try {
@@ -68,7 +68,7 @@ public class CustomerRepository extends AbstractRepository<Customer, CustomerUpd
     }
 
     public List<Customer> findAll() {
-        String sql = "select id, customer_id, e_mail, password, name, phone_number, alias, saved_point from customer";
+        String sql = "select id, customer_id, e_mail, password, name, phone_number, alias, saved_point,status from customer";
 
         return template.query(sql, customerRowMapper());
     }
@@ -94,6 +94,7 @@ public class CustomerRepository extends AbstractRepository<Customer, CustomerUpd
         String alias = updateParam.getAlias();
         String phoneNumber = updateParam.getPhoneNumber();
         String eMail = updateParam.getEMail();
+        Boolean status = updateParam.getStatus();
         int savedPoint = updateParam.getSavedPoint();
 
         List<String> paramList = new ArrayList<>();
@@ -133,6 +134,10 @@ public class CustomerRepository extends AbstractRepository<Customer, CustomerUpd
             paramList.add("saved_point=:savedPoint");
             param.addValue("savedPoint", savedPoint);
         }
+        if(status != true){
+            paramList.add("status=:status");
+            param.addValue("status",status);
+        }
 
         sql = getUpdateQuery(sql, paramList);
         param.addValue("id", id);
@@ -159,7 +164,9 @@ public class CustomerRepository extends AbstractRepository<Customer, CustomerUpd
                 rs.getString("name"),
                 rs.getString("phone_number"),
                 rs.getString("alias"),
-                rs.getInt("saved_point"));
+                rs.getInt("saved_point"),
+                rs.getBoolean("status")
+                );
     }
 
 }

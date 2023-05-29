@@ -37,9 +37,9 @@ public class CustomerApiController {
     }*/
 
     //customer삭제
-    @DeleteMapping("/api/customers/{id}")
+    @PutMapping("/api/customers/{id}/status")
     public ResponseEntity<?>customerDelete(@PathVariable long id){
-        customerService.deleteOne(id);
+        customerService.updateStatusCustomer(id);
         return new ResponseEntity<>(new RespDto<>(1,"회원삭제성공",null),HttpStatus.OK);
 
 

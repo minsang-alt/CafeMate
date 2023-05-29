@@ -36,7 +36,8 @@ public CustomerDto toEntity(){
             this.fullName,
             this.userContact,
             this.nickName,
-            0 // 초기 savedPoint 값
+            0, // 초기 savedPoint 값,
+            true //active 상태
     );
 }
 

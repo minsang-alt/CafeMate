@@ -16,9 +16,9 @@ public class Customer {
     private String phoneNumber;
     private String alias;
     private int savedPoint;
-
+    private Boolean status;
     public Customer(long id, String customerId, String eMail, String password,
-                    String name, String phoneNumber, String alias, int savedPoint) {
+                    String name, String phoneNumber, String alias, int savedPoint,Boolean status) {
         this.id = id;
         this.customerId = customerId;
         this.eMail = eMail;
@@ -27,9 +27,10 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         this.alias = alias;
         this.savedPoint = savedPoint;
+        this.status = status;
     }
 
-    public Customer(String customerId, String eMail, String password, String name, String phoneNumber, String alias, int savedPoint) {
+    public Customer(String customerId, String eMail, String password, String name, String phoneNumber, String alias, int savedPoint,Boolean status) {
         this.customerId = customerId;
         this.eMail = eMail;
         this.password = password;
@@ -37,6 +38,7 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         this.alias = alias;
         this.savedPoint = savedPoint;
+        this.status = status;
     }
 
     public Customer(String customerId, String eMail, String password,

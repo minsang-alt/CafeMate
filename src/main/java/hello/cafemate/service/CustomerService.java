@@ -45,6 +45,23 @@ public class CustomerService {
         customerRepository.deleteById(id);
     }
 
+
+    //회원 상태 active에서 deleted(1=>0)으로 바꿈
+    @Transactional(readOnly = false)
+    public void updateStatusCustomer(Long customerId){
+       Optional<Customer> findCustomer = customerRepository.findById(customerId);
+
+       if(findCustomer.isEmpty()){
+           throw new IllegalStateException("회원이 존재하지 않습니다.");
+       }
+
+       CustomerUpdateDto customerUpdateDto = new CustomerUpdateDto();
+
+        customerUpdateDto.setStatus(false);
+
+        customerRepository.update(customerId,customerUpdateDto);
+    }
+
     private void validateDuplicateCustomer(String customerId){
         Optional<Customer> result = customerRepository.findByCustomerId(customerId);
 
@@ -55,12 +72,12 @@ public class CustomerService {
 
     private Customer dtoToEntity(CustomerDto dto){
         return new Customer(dto.getCustomerId(), dto.getEMail(), dto.getPassword(),
-                dto.getName(), dto.getPhoneNumber(), dto.getAlias(), dto.getSavedPoint());
+                dto.getName(), dto.getPhoneNumber(), dto.getAlias(), dto.getSavedPoint(),dto.getStatus());
     }
 
     //비밀번호 안넘기기?
     private CustomerDto entityToDto(Customer customer){
         return new CustomerDto(customer.getId(),customer.getCustomerId(), customer.getEMail(), customer.getPassword(),
-                customer.getName(), customer.getPhoneNumber(), customer.getAlias(), customer.getSavedPoint());
+                customer.getName(), customer.getPhoneNumber(), customer.getAlias(), customer.getSavedPoint(),customer.getStatus());
     }
 }

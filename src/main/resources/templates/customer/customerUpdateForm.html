@@ -41,12 +41,12 @@
         </div>
 
         <div class="form-group">
-          <label for="email">이메일</label>
+          <label for="eMail">이메일</label>
           <input
                   type="email"
                   class="form-control"
-                  id="email"
-                  name="email"
+                  id="eMail"
+                  name="eMail"
                   placeholder="cos@cafemate.kr"
                   th:value="${dto.eMail}"
                   required ="required"
@@ -54,12 +54,12 @@
         </div>
 
         <div class="form-group">
-          <label for="fullName">실명</label>
+          <label for="name">실명</label>
           <input
                   type="text"
                   class="form-control"
-                  id="fullName"
-                  name="fullName"
+                  id="name"
+                  name="name"
                   placeholder="홍길동"
                   maxlength="10"
                   th:value="${dto.name}"
@@ -68,12 +68,12 @@
         </div>
 
         <div class="form-group">
-          <label for="nickName">닉네임</label>
+          <label for="alias">닉네임</label>
           <input
                   type="text"
                   class="form-control"
-                  id="nickName"
-                  name="nickName"
+                  id="alias"
+                  name="alias"
                   th:value="${dto.alias}"
                   placeholder="별명을 알파벳, 한글, 숫자를 20자 이하로 입력해주세요."
 
@@ -81,12 +81,12 @@
         </div>
 
         <div class="form-group">
-          <label for="userContact">연락처</label>
+          <label for="phoneNumber">연락처</label>
           <input
                   type="tel"
                   class="form-control"
-                  id="userContact"
-                  name="userContact"
+                  id="phoneNumber"
+                  name="phoneNumber"
                   placeholder="전화번호를 입력해주세요 010-1111-1111"
                   pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
                   th:value="${dto.phoneNumber}"

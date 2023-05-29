@@ -13,6 +13,12 @@ public class CustomerUpdateDto {
     private String phoneNumber;
     private String alias;
     private int savedPoint;
+    private Boolean status;
 
-    public CustomerUpdateDto(){};
+
+    public CustomerUpdateDto(){
+        //회원수정버튼을 눌렀을때 항상 status는 active상태여야하므로 여기서 true로 설정 추후에 문제되면
+        //이것을 없애고 customerUpdateForm에서 status=true를 넘기는 방식으로 해야함
+        this.status=true;
+    };
 }
