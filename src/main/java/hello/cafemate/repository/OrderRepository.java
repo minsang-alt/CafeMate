@@ -32,7 +32,7 @@ public class OrderRepository extends AbstractRepository<Order, OrderUpdateDto> {
 
     @Override
     public Order save(Order target) {
-        String sql = "insert into orders(customer_id, quantity, payments, use_point_amount, is_complete, order_date)" +
+        String sql = "insert into orders(customer_id, quantity, payments, use_point_amount, is_complete, orders_date)" +
                 " values(:customerId, :quantity, :payments, :usePointAmount, :isComplete, :orderDate)";
 
         ConvertSqlParameterSource param = new ConvertSqlParameterSource(target);
@@ -57,7 +57,7 @@ public class OrderRepository extends AbstractRepository<Order, OrderUpdateDto> {
 
     @Override
     public Optional<Order> findById(Long id) {
-        String sql = "select id, customer_id, quantity, payments, use_point_amount, is_complete, order_date" +
+        String sql = "select id, customer_id, quantity, payments, use_point_amount, is_complete, orders_date" +
                 " from orders where id=:id";
 
         try {
@@ -85,7 +85,7 @@ public class OrderRepository extends AbstractRepository<Order, OrderUpdateDto> {
     }
 
     public List<Order> findOrdersByCustomerId(Long customerId) {
-        String sql = "select id, customer_id, quantity, payments, use_point_amount, is_complete, order_date" +
+        String sql = "select id, customer_id, quantity, payments, use_point_amount, is_complete, orders_date" +
                 " from orders where customer_id=:customerId";
 
         MapSqlParameterSource param =
@@ -153,7 +153,7 @@ public class OrderRepository extends AbstractRepository<Order, OrderUpdateDto> {
         }
 
         if (orderDate != null) {
-            paramList.add("order_date=:orderDate");
+            paramList.add("orders_date=:orderDate");
             param.addValue("orderDate", orderDate);
         }
 
@@ -186,7 +186,7 @@ public class OrderRepository extends AbstractRepository<Order, OrderUpdateDto> {
                 rs.getInt("payments"),
                 rs.getInt("use_point_amount"),
                 rs.getInt("is_complete") == 1 ? true : false,
-                rs.getTimestamp("order_date")
+                rs.getTimestamp("orders_date")
         );
     }
 
