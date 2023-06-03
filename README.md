@@ -8,7 +8,9 @@
 
 - 로그인 
 
-  ![CafeMate로그인](C:\Users\mazin\Videos\CafeMate\CafeMate로그인.gif)
+![CafeMate로그인](https://github.com/minsang-alt/CafeMate/assets/82764703/9dd6b099-b503-442c-ad88-39b715d2165b)
+
+
 
   
 
@@ -16,15 +18,23 @@
 
 - 상품 등록 
 
-  ![CafeMate상품등록](C:\Users\mazin\Videos\CafeMate\CafeMate상품등록.gif)
+![CafeMate상품등록](https://github.com/minsang-alt/CafeMate/assets/82764703/c690c458-a1b7-4b96-83db-6a36d46505f6)
 
   
 
   
+
+  
+
+
 
 - 상품수정,삭제
 
-​	![상품수정,삭제](C:\Users\mazin\Videos\CafeMate\상품수정,삭제.gif)
+![상품수정,삭제](https://github.com/minsang-alt/CafeMate/assets/82764703/8943203b-3724-408c-9ee5-42f02b8daa8d)
+
+
+
+
 
 
 
@@ -36,26 +46,33 @@
 
 - 주문등록
 
-  ![주문등록](C:\Users\mazin\Videos\CafeMate\주문등록.gif)
+![주문등록](https://github.com/minsang-alt/CafeMate/assets/82764703/2b5998bc-c8c0-4c1f-813d-4cf408be36e6)
+
   
-  - 등록된 아이디를 선택하면 연락처와 현재 보유한 포인트를 불러옵니다.
-  - 포인트를 사용하면 금액이 차감된 상태로 주문을 등록할 수 있습니다.
-  
-  
-  
+   등록된 아이디를 선택하면 연락처와 현재 보유한 포인트를 불러옵니다. <br>
+   포인트를 사용하면 금액이 차감된 상태로 주문을 등록할 수 있습니다.
   
   
   
+  
+  
+  
+
+
 
 
 
 - 주문리스트 페이지
 
-  ![주문리스트](C:\Users\mazin\Videos\CafeMate\주문리스트.png)
+<img width="1273" alt="주문리스트" src="https://github.com/minsang-alt/CafeMate/assets/82764703/b80409bb-531a-4819-819d-3054835dc095">
+
+
 
 - 회원 수정,삭제
 
-  ![회원수정,삭제](C:\Users\mazin\Videos\CafeMate\회원수정,삭제.gif)
+![회원수정,삭제](https://github.com/minsang-alt/CafeMate/assets/82764703/c1a40c15-3eeb-40cc-b1bc-89cd6ef7ed3a)
+
+ 
 
 ​	
 
